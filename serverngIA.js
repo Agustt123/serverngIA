@@ -388,6 +388,8 @@ async function consumirMensajes() {
                 const didCliente = sellerdata[0]["didCliente"] * 1;
                 const didCuenta = sellerdata[0]["didCuenta"] * 1;
                 const didEmpresa = sellerdata[0]["didEmpresa"] * 1;
+                const ff  = sellerdata[0]["ff"] * 1;
+                const ia  = sellerdata[0]["ia"] * 1;
 
                 const token = await getTokenForSeller(sellerid);
 
@@ -406,6 +408,8 @@ async function consumirMensajes() {
                         didCuenta,
                         orderData,
                         envioML,
+                        ff,
+                        ia
                       };
 
                       const dataEnviar = {

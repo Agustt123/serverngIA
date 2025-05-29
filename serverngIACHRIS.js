@@ -248,6 +248,8 @@ async function armadojson(income) {
     gtoken: "",
     flex: 1,
     did: 0,
+    ia: income.ia,
+    ff: income.ff,
     turbo: turbo,
     fecha_inicio: fechactual.fecha,
     fechaunix: fechactual.unix,
