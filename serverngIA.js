@@ -139,10 +139,10 @@ function extractKey(resource) {
 async function obtenerFechaActual() {
   const ahora = new Date();
 
-  // Formato "YYYY-MM-DD"
+  // Foormato "YYYY-MM-DD"
   const fechaFormateada = ahora.toISOString().split('T')[0];
 
-  // Formato Unix timestamp (segundos desde 1970)
+  // Formato Unix imestamp (segundos desde 1970)
   const timestampUnix = Math.floor(ahora.getTime() / 1000);
 
   return {
