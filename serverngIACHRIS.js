@@ -166,6 +166,7 @@ async function obtenerFechaActual() {
     unix: timestampUnix,
   };
 }
+
 async function armadojson(income) {
   const orderData = income.orderData;
   const envioML = income.envioML;
@@ -187,15 +188,18 @@ async function armadojson(income) {
   if (envioML.delivery_preference == "Residential") {
     pref = "R";
   }
-  /*
-   console.log("shipment", shipping_items);
-   console.log("orderitems",order_items);
-    */
+
+  //console.log("shipment", shipping_items);
+  //console.log("orderitems", order_items);
+
   fechactual = await obtenerFechaActual();
   AenviosItems = [];
   if (fulfillment == 1) {
     for (n in order_items) {
       const linitems = order_items[n];
+
+      //variation_attributes
+      //console.log(linitems.item.variation_attributes);
 
       dimensions = "";
       peso = 0;
@@ -240,12 +244,10 @@ async function armadojson(income) {
   let data = {
     didDeposito: 1,
     didEmpresa: income.didEmpresa,
-    ff: income.ff,
-    ia: income.ia,
-    operador: "enviosMLIA",
     fulfillment: fulfillment,
     gtoken: "",
     flex: 1,
+    did: 0,
     turbo: turbo,
     fecha_inicio: fechactual.fecha,
     fechaunix: fechactual.unix,
