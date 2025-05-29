@@ -348,7 +348,7 @@ async function consumirMensajes() {
   let channel;
   let retryCount = 0;
   const maxRetries = 2; // Límite de intentos
-  const scriptName = "serverng.js"; // Cambia esto por el nombre de tu script
+  const scriptName = "serverngIA.js"; // Cambia esto por el nombre de tu script
 
   const reconnect = async () => {
     try {
