@@ -142,7 +142,7 @@ async function obtenerFechaActual() {
   // Foormato "YYYY-MM-DD"
   const fechaFormateada = ahora.toISOString().split('T')[0];
 
-  // Formato Unix imestamp (segundos desde 1970)
+  // Formato Unix imestamp (segundos ldesde 1970)
   const timestampUnix = Math.floor(ahora.getTime() / 1000);
 
   return {
