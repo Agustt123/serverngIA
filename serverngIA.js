@@ -183,6 +183,7 @@ async function armadojson(income) {
   idorder = orderData.id;
   packid = orderData.pack_id;
   pesototal = 0;
+  statusO = orderData.status;
 
   pref = "C";
   if (envioML.delivery_preference == "Residential") {
@@ -248,6 +249,7 @@ async function armadojson(income) {
     gtoken: "",
     flex: 1,
     turbo: turbo,
+    status_order: statusO,
     fecha_inicio: fechactual.fecha,
     fechaunix: fechactual.unix,
     lote: "mlia",
