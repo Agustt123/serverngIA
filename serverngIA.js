@@ -320,7 +320,7 @@ async function enviarColaEnviosAlta(datajson) {
   try {
     const connection = await amqp.connect({
       protocol: "amqp",
-      hostname: "158.69.131.226",
+      hostname: "10.60.0.125",
       port: 5672,
       username: "lightdata",
       password: "QQyfVBKRbw6fBb",
@@ -360,7 +360,7 @@ async function consumirMensajes() {
       // Conectar a RabbitMQ
       connection = await amqp.connect({
         protocol: "amqp",
-        hostname: "158.69.131.226",
+        hostname: "10.60.0.125",
         port: 5672,
         username: "lightdata",
         password: "QQyfVBKRbw6fBb",
@@ -389,17 +389,14 @@ async function consumirMensajes() {
                 const didCliente = sellerdata[0]["didCliente"] * 1;
                 const didCuenta = sellerdata[0]["didCuenta"] * 1;
                 const didEmpresa = sellerdata[0]["didEmpresa"] * 1;
-                const ff  = sellerdata[0]["ff"] * 1;
-                const ia  = sellerdata[0]["ia"] * 1;
-
-                
+                const ff = sellerdata[0]["ff"] * 1;
+                const ia = sellerdata[0]["ia"] * 1;
 
                 const token = await getTokenForSeller(sellerid);
 
                 if (token != -1) {
                   const envioML = await obtenerDatosEnvioML(shipmentid, token);
                   if (envioML && envioML.logistic_type == "self_service") {
-
                     //paso 1 //inserto en logs
 
                     const orderid = envioML.order_id;
@@ -415,7 +412,7 @@ async function consumirMensajes() {
                         orderData,
                         envioML,
                         ff,
-                        ia
+                        ia,
                       };
 
                       const dataEnviar = {
@@ -427,9 +424,7 @@ async function consumirMensajes() {
                       Ausados[claveusada] = 1;
                     }
                   } else {
-
                     //paso 2 //inserto en logs
-
                   }
                 }
               }
