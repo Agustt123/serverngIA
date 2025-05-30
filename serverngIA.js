@@ -166,6 +166,7 @@ async function obtenerFechaActual() {
     unix: timestampUnix,
   };
 }
+
 async function armadojson(income) {
   const orderData = income.orderData;
   const envioML = income.envioML;
@@ -391,11 +392,16 @@ async function consumirMensajes() {
                 const ff  = sellerdata[0]["ff"] * 1;
                 const ia  = sellerdata[0]["ia"] * 1;
 
+                
+
                 const token = await getTokenForSeller(sellerid);
 
                 if (token != -1) {
                   const envioML = await obtenerDatosEnvioML(shipmentid, token);
                   if (envioML && envioML.logistic_type == "self_service") {
+
+                    //paso 1 //inserto en logs
+
                     const orderid = envioML.order_id;
                     const orderData = await obtenerDatosOrderML(orderid, token);
 
@@ -420,6 +426,10 @@ async function consumirMensajes() {
                       await enviarColaEnviosAlta(dataEnviar);
                       Ausados[claveusada] = 1;
                     }
+                  } else {
+
+                    //paso 2 //inserto en logs
+
                   }
                 }
               }
