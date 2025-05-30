@@ -166,7 +166,6 @@ async function obtenerFechaActual() {
     unix: timestampUnix,
   };
 }
-
 async function armadojson(income) {
   const orderData = income.orderData;
   const envioML = income.envioML;
@@ -320,7 +319,7 @@ async function enviarColaEnviosAlta(datajson) {
   try {
     const connection = await amqp.connect({
       protocol: "amqp",
-      hostname: "10.60.0.125",
+      hostname: "158.69.131.226",
       port: 5672,
       username: "lightdata",
       password: "QQyfVBKRbw6fBb",
@@ -360,7 +359,7 @@ async function consumirMensajes() {
       // Conectar a RabbitMQ
       connection = await amqp.connect({
         protocol: "amqp",
-        hostname: "10.60.0.125",
+        hostname: "158.69.131.226",
         port: 5672,
         username: "lightdata",
         password: "QQyfVBKRbw6fBb",
@@ -397,8 +396,6 @@ async function consumirMensajes() {
                 if (token != -1) {
                   const envioML = await obtenerDatosEnvioML(shipmentid, token);
                   if (envioML && envioML.logistic_type == "self_service") {
-                    //paso 1 //inserto en logs
-
                     const orderid = envioML.order_id;
                     const orderData = await obtenerDatosOrderML(orderid, token);
 
@@ -423,8 +420,6 @@ async function consumirMensajes() {
                       await enviarColaEnviosAlta(dataEnviar);
                       Ausados[claveusada] = 1;
                     }
-                  } else {
-                    //paso 2 //inserto en logs
                   }
                 }
               }
