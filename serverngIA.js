@@ -324,10 +324,8 @@ async function enviarColaEnviosAlta(datajson) {
       username: "lightdata",
       password: "QQyfVBKRbw6fBb",
       heartbeat: 30,
-      clientProperties: {
-        connection_name: "serverngIA", // 👈 Nombre visible en RabbitMQ
-      },
     });
+
     const channel = await connection.createChannel();
     await channel.assertQueue(queue, { durable: true });
     await channel.prefetch(20);
@@ -345,37 +343,6 @@ async function enviarColaEnviosAlta(datajson) {
   }
 }
 
-const pool = mysql.createPool({
-  host: "167.114.122.170",
-  user: "root",
-  password: "pJ3Aqijhd8Qw3A",
-  database: "nombre_de_tu_base_de_datos", // Cambia esto por el nombre de tu base de datos
-  waitForConnections: true,
-  connectionLimit: 10,
-  queueLimit: 0,
-});
-async function insertLog(logData, paso) {
-  const connection = await mysql.createConnection(dbConfig);
-  try {
-    const query = `INSERT INTO logs (sellerid, didEmpresa, didCliente, didCuenta, orderData, envioML, ff, ia,paso) VALUES (?, ?, ?, ?, ?, ?, ?, ?,?)`;
-    const values = [
-      logData.sellerid,
-      logData.didEmpresa,
-      logData.didCliente,
-      logData.didCuenta,
-      JSON.stringify(logData.orderData),
-      JSON.stringify(logData.envioML),
-      logData.ff,
-      logData.ia,
-      paso,
-    ];
-    await connection.execute(query, values);
-  } catch (error) {
-    console.error("Error al insertar log:", error);
-  } finally {
-    await connection.end();
-  }
-}
 async function consumirMensajes() {
   let connection;
   let channel;
@@ -397,9 +364,6 @@ async function consumirMensajes() {
         username: "lightdata",
         password: "QQyfVBKRbw6fBb",
         heartbeat: 30,
-        clientProperties: {
-          connection_name: "serverngIA2", // 👈 Nombre personalizado que verás en RabbitMQ
-        },
       });
 
       // Crear un nuevo canal
@@ -447,7 +411,7 @@ async function consumirMensajes() {
                         ff,
                         ia,
                       };
-                      await insertLog(income, 1);
+
                       const dataEnviar = {
                         operador: "enviosmlia",
                         data: await armadojson(income),
@@ -456,18 +420,6 @@ async function consumirMensajes() {
                       await enviarColaEnviosAlta(dataEnviar);
                       Ausados[claveusada] = 1;
                     }
-                  } else {
-                    const logData = {
-                      sellerid,
-                      didEmpresa,
-                      didCliente,
-                      didCuenta,
-                      orderData: null, // o lo que sea relevante
-                      envioML,
-                      ff,
-                      ia,
-                    };
-                    await insertLog(logData, 2);
                   }
                 }
               }
