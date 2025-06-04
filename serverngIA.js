@@ -30,6 +30,7 @@ async function reiniciarScript() {
 let Atokens = [];
 let AsellersData = [];
 let Ausados = [];
+let AusadosFF = [];
 
 const redisClient = redis.createClient({
   socket: {
@@ -166,6 +167,160 @@ async function obtenerFechaActual() {
     unix: timestampUnix,
   };
 }
+
+async function armadojsonff(income) {
+
+  /*
+    [
+
+      {"number": "XXXXXXXXXXX",
+      "fecha_venta":"",
+      "items":[
+        //como los tenemos aahora los campos
+      ]}, 
+     {"number": "XXXXXXXXXXX",
+      "fecha_venta":"",
+      "items":[
+        //como los tenemos aahora los campos
+      ]}
+    ]
+  */
+
+  const orderData = income.orderData;
+  const envioML = income.envioML;
+  const sellerid = income.sellerid;
+  const fulfillment = 1; //income.fulfillment;
+  let Aorders = [];
+
+  shipping_items = envioML.shipping_items;
+  order_items = orderData.order_items;
+
+  tracking_method = envioML.tracking_method;
+  receiver_address = envioML.receiver_address;
+  tags = envioML.tags;
+  turbo = tags.includes("turbo") ? 1 : 0;
+  idorder = orderData.id;
+  packid = orderData.pack_id;
+  pesototal = 0;
+  statusO = orderData.status;
+
+  pref = "C";
+  if (envioML.delivery_preference == "Residential") {
+    pref = "R";
+  }
+  /*
+   console.log("shipment", shipping_items);
+   console.log("orderitems",order_items);
+    */
+  fechactual = await obtenerFechaActual();
+  AenviosItems = [];
+  if (fulfillment == 1) {
+    for (n in order_items) {
+      const linitems = order_items[n];
+
+      dimensions = "";
+      peso = 0;
+      variacion = "";
+
+      if (linitems.item.variation_id != null) {
+        variacion = linitems.item.variation_id;
+      }
+
+      for (j in shipping_items) {
+        const lineashipment = shipping_items[j];
+
+        if (
+          linitems.item.id == lineashipment.id &&
+          linitems.quantity == lineashipment.quantity
+        ) {
+          let dimen = lineashipment.dimensions;
+          const [medidasStr, pesoStr] = dimen.split(",");
+
+          dimensions = medidasStr;
+          pesototal += pesoStr * 1;
+        }
+      }
+
+      a = {
+        codigo: linitems.item.id,
+        imagen: "",
+        descripcion: linitems.item.title,
+        ml_id: linitems.item.id,
+        dimensions: dimensions,
+        cantidad: linitems.quantity,
+        variacion: variacion,
+        seller_sku: linitems.item.seller_sku,
+      };
+
+      AenviosItems.push(a);
+    }
+
+    // process.exit(0);
+  }
+
+  let data = {
+    didDeposito: 1,
+    didEmpresa: income.didEmpresa,
+    ff: income.ff,
+    ia: income.ia,
+    operador: "enviosMLIA",
+    fulfillment: fulfillment,
+    gtoken: "",
+    flex: 1,
+    turbo: turbo,
+    status_order: statusO,
+    fecha_inicio: fechactual.fecha,
+    fechaunix: fechactual.unix,
+    lote: "mlia",
+    ml_shipment_id: orderData.shipping.id,
+    ml_vendedor_id: sellerid,
+    ml_venta_id: idorder,
+    ml_pack_id: packid,
+    ml_qr_seguridad: "",
+    didCliente: income.didCliente,
+    didCuenta: income.didCuenta,
+    didServicio: 1,
+    peso: pesototal,
+    volumen: 0,
+    bultos: 1,
+    valor_declarado: orderData.paid_amount,
+    monto_total_a_cobrar: 0,
+    tracking_method: tracking_method,
+    tracking_number: orderData.shipping.id,
+    fecha_venta: orderData.date_created,
+    destination_receiver_name: receiver_address.receiver_name,
+    destination_receiver_phone: receiver_address.receiver_phone,
+    destination_receiver_email: "",
+    destination_comments: receiver_address.comment,
+    delivery_preference: pref,
+    quien: 0,
+    enviosObservaciones: {
+      observacion: receiver_address.comment,
+    },
+    enviosDireccionesDestino: {
+      calle: receiver_address.street_name,
+      numero: receiver_address.street_number,
+      address_line: receiver_address.address_line,
+      cp: receiver_address.zip_code,
+      localidad: receiver_address.city.name,
+      provincia: receiver_address.state.name,
+      pais: receiver_address.country.name,
+      latitud: receiver_address.latitude,
+      longitud: receiver_address.longitude,
+      quien: 0,
+      destination_comments: receiver_address.comment,
+      delivery_preference: pref,
+    },
+    enviosItems: AenviosItems,
+    orders: Aorders
+  };
+
+  //console.log(data);
+
+  return data;
+
+}
+
 async function armadojson(income) {
   const orderData = income.orderData;
   const envioML = income.envioML;
@@ -291,7 +446,7 @@ async function armadojson(income) {
       destination_comments: receiver_address.comment,
       delivery_preference: pref,
     },
-    enviosItems: AenviosItems,
+    enviosItems: AenviosItems
   };
 
   //console.log(data);
@@ -397,12 +552,33 @@ async function consumirMensajes() {
 
                 if (token != -1) {
                   const envioML = await obtenerDatosEnvioML(shipmentid, token);
-                  if (envioML && envioML.logistic_type == "self_service") {
+
+                  if (ff == 1) {
+
                     const orderid = envioML.order_id;
                     const orderData = await obtenerDatosOrderML(orderid, token);
+                    const packid = orderData.pack_id; //fijarse si es null poner en vacio
+                    const claveusada = `${sellerid}-${packid}-${orderid}-${shipmentid}`;
 
-                    const claveusada = `${sellerid}-${orderid}-${shipmentid}`;
-                    if (!Ausados.hasOwnProperty(claveusada)) {
+                    if (!AusadosFF.hasOwnProperty(claveusada)) {
+                      let Aorders = [];
+                      let AordersData = [];
+                      if (packid != "") {
+
+                        //busco en ML las orders del pack id
+                        //agrego a cada 1 a Aorders
+
+                      } else {
+                        Aorders.push(orderid);
+                      }
+
+                      //recorro Aorders y me traigo los datos de la venta
+                      for (j in Aorders) {
+
+                        let orderPack = await obtenerDatosOrderML(Aorders[j], token);
+                        //AordersData
+                      }
+
                       const income = {
                         sellerid,
                         didEmpresa,
@@ -412,18 +588,58 @@ async function consumirMensajes() {
                         envioML,
                         ff,
                         ia,
+                        AordersData
                       };
 
                       const dataEnviar = {
                         operador: "enviosmlia",
-                        data: await armadojson(income),
+                        data: await armadojsonff(income),
                       };
 
                       await enviarColaEnviosAlta(dataEnviar);
-                      Ausados[claveusada] = 1;
+
+                      AusadosFF[claveusada] = 1;
                     }
+
+                    //uso otro armado jsonff
+                    //insrtas el envio 
+
+                  } else {
+
+                    if (envioML && envioML.logistic_type == "self_service") {
+                      const orderid = envioML.order_id;
+                      const orderData = await obtenerDatosOrderML(orderid, token);
+
+                      const claveusada = `${sellerid}-${orderid}-${shipmentid}`;
+                      if (!Ausados.hasOwnProperty(claveusada)) {
+                        const income = {
+                          sellerid,
+                          didEmpresa,
+                          didCliente,
+                          didCuenta,
+                          orderData,
+                          envioML,
+                          ff,
+                          ia
+                        };
+
+                        const dataEnviar = {
+                          operador: "enviosmlia",
+                          data: await armadojson(income),
+                        };
+
+                        await enviarColaEnviosAlta(dataEnviar);
+                        Ausados[claveusada] = 1;
+                      }
+                    }
+
                   }
+
+
+
+
                 }
+
               }
             } catch (err) {
               console.error("Error procesando mensaje:", err);
