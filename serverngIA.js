@@ -507,6 +507,34 @@ async function enviarColaEnviosAlta(datajson) {
   }
 }
 
+async function getPackData(packId, token) {
+  try {
+    const url = `https://api.mercadolibre.com/packs//${packId}`;
+    // console.log(url);
+    //console.log(token);
+    const response = await axios.get(url, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (response.data && response.data.id) {
+      return response.data;
+    } else {
+      console.error(
+        `No se encontraron datos válidos para el envío ${shipmentid}.`
+      );
+      return null;
+    }
+  } catch (error) {
+    console.error(
+      `Error al obtener datos del envío ${shipmentid} desde Mercado Libre:`,
+      error.message
+    );
+    return null;
+  }
+}
+
 async function consumirMensajes() {
   let connection;
   let channel;
@@ -572,6 +600,7 @@ async function consumirMensajes() {
                       let AordersData = [];
                       if (packid != "") {
 
+                        const datapack = await getPackData(packid, token);
                         //busco en ML las orders del pack id
                         //agrego a cada 1 a Aorders
 
