@@ -592,7 +592,7 @@ async function consumirMensajes() {
 
                     const orderid = envioML.order_id;
                     const orderData = await obtenerDatosOrderML(orderid, token);
-                    const packid = orderData.pack_id; //fijarse si es null poner en vacio
+                    const packid = orderData.pack_id ?? ''; //fijarse si es null poner en vacio
                     const claveusada = `${sellerid}-${packid}-${orderid}-${shipmentid}`;
 
                     if (!AusadosFF.hasOwnProperty(claveusada)) {
