@@ -601,8 +601,8 @@ async function consumirMensajes() {
                       if (packid != "") {
 
                         const datapack = await getPackData(packid, token);
-                        //busco en ML las orders del pack id
-                        //agrego a cada 1 a Aorders
+                        const Aorderspack = datapack.orders;
+                        Aorders = Aorderspack.map(order => order.id);
 
                       } else {
                         Aorders.push(orderid);
