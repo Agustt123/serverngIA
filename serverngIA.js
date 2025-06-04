@@ -176,7 +176,14 @@ async function armadojsonff(income) {
       {"number": "XXXXXXXXXXX",
       "fecha_venta":"",
       "items":[
-        //como los tenemos aahora los campos
+{  codigo: linitems.item.id,
+        imagen: "",
+        descripcion: linitems.item.title,
+        ml_id: linitems.item.id,
+        dimensions: dimensions,
+        cantidad: linitems.quantity,
+        variacion: variacion,
+        seller_sku: linitems.item.seller_sku,}
       ]}, 
      {"number": "XXXXXXXXXXX",
       "fecha_venta":"",
