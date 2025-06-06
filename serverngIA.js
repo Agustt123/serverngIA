@@ -774,6 +774,6 @@ async function consumirMensajes() {
 
   await reconnect();
 }
-
+//
 // Llamar a la función principal
 main();
