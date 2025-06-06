@@ -253,7 +253,7 @@ async function armadojsonff(income) {
 
   let data = {
     didDeposito: 1,
-    didEmpresa: 270,
+    didEmpresa: income.didEmpresa,
     ff: income.ff,
     ia: income.ia,
     operador: "enviosMLIA",
@@ -264,8 +264,11 @@ async function armadojsonff(income) {
     status_order: statusO,
     fecha_inicio: fechactual.fecha,
     fechaunix: fechactual.unix,
-    lote: "mlia",
-    ml_vendedor_id: sellerid,
+    ml_shipment_id: orderData.shipping.id,
+    ml_vendedor_id: income.sellerid,
+    ml_venta_id: orderData.id,
+    ml_pack_id: orderData.pack_id,
+
     ml_qr_seguridad: "",
     didCliente: income.didCliente,
     didCuenta: income.didCuenta,
@@ -454,6 +457,39 @@ async function obtenerSellersActivos() {
 }
 
 async function enviarColaEnviosAlta(datajson) {
+  const queue = "insertMLIA";
+  const message = datajson;
+
+  //console.log("mensaje a enviar:");
+  //console.log(message);
+
+  try {
+    const connection = await amqp.connect({
+      protocol: "amqp",
+      hostname: "158.69.131.226",
+      port: 5672,
+      username: "lightdata",
+      password: "QQyfVBKRbw6fBb",
+      heartbeat: 30,
+    });
+
+    const channel = await connection.createChannel();
+    await channel.assertQueue(queue, { durable: true });
+    await channel.prefetch(20);
+
+    channel.sendToQueue(queue, Buffer.from(JSON.stringify(message)), {
+      persistent: true,
+    });
+
+    console.log("Mensaje enviado a la cola insertMLIA:");
+
+    await channel.close();
+    await connection.close();
+  } catch (error) {
+    console.error("Error al enviar el mensaje a la cola:", error);
+  }
+}
+async function enviarColaEnviosAltaFF(datajson) {
   const queue = "insertFF";
   const message = datajson;
 
@@ -638,7 +674,7 @@ async function consumirMensajes() {
                         JSON.stringify(dataEnviar, null, 2)
                       );
 
-                      await enviarColaEnviosAlta(dataEnviar);
+                      await enviarColaEnviosAltaFF(dataEnviar);
 
                       AusadosFF[claveusada] = 1;
                       return true;
@@ -654,7 +690,7 @@ async function consumirMensajes() {
                         token
                       );
 
-                      const claveusada = `${sellerid}-${orderid}-${shipmentid}`;
+                      //  const claveusada = `${sellerid}-${orderid}-${shipmentid}`;
                       if (!Ausados.hasOwnProperty(claveusada)) {
                         const income = {
                           sellerid,
@@ -673,7 +709,7 @@ async function consumirMensajes() {
                         };
 
                         await enviarColaEnviosAlta(dataEnviar);
-                        Ausados[claveusada] = 1;
+                        //   Ausados[claveusada] = 1;
                       }
                     }
                   }
