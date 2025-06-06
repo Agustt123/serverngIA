@@ -94,8 +94,8 @@ async function obtenerDatosEnvioML(shipmentid, token) {
 async function obtenerDatosOrderML(shipmentid, token) {
   try {
     const url = `https://api.mercadolibre.com/orders/${shipmentid}`;
-    console.log(url);
-    console.log(token);
+    // console.log(url);
+    //  console.log(token);
     const response = await axios.get(url, {
       headers: {
         Authorization: `Bearer ${token}`,
