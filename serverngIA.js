@@ -588,17 +588,7 @@ async function consumirMensajes() {
         async (mensaje) => {
           if (mensaje) {
             try {
-              AsellersData = {
-                45810060: [
-                  {
-                    didCliente: 1,
-                    didCuenta: 2,
-                    didEmpresa: 3,
-                    ff: 1, // Asegúrate de que este valor sea el adecuado para tu prueba
-                    ia: 1,
-                  },
-                ],
-              };
+
               const data = JSON.parse(mensaje.content.toString());
               const shipmentid = extractKey(data["resource"]);
               const sellerid = data["sellerid"];
@@ -612,9 +602,8 @@ async function consumirMensajes() {
                 let ff = sellerdata[0]["ff"] * 1;
                 const ia = sellerdata[0]["ia"] * 1;
 
-                if (didEmpresa == 274 && didCliente == 3 && didCuenta && 28) {
+                if (didEmpresa == 274 && didCliente == 3 && didCuenta == 28 ) {
                   ff = 0;
-                  // console.log(sellerdata);
                 }
 
                 const token = await getTokenForSeller(sellerid);
