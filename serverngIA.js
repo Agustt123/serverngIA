@@ -592,7 +592,7 @@ async function consumirMensajes() {
               const data = JSON.parse(mensaje.content.toString());
               const shipmentid = extractKey(data["resource"]);
               const sellerid = data["sellerid"];
-              console.log(data);
+              //  console.log(data);
 
               if (AsellersData && AsellersData[sellerid]) {
                 const sellerdata = AsellersData[sellerid];
@@ -616,7 +616,7 @@ async function consumirMensajes() {
 
                     const orderid = envioML.order_id;
                     const orderData = await obtenerDatosOrderML(orderid, token);
-                    console.log(orderData);
+                    //     console.log(orderData);
 
                     const packid = orderData.pack_id ?? ""; //fijarse si es null poner en vacio
                     const claveusada = `${sellerid}-${packid}-${orderid}-${shipmentid}`;
@@ -658,10 +658,7 @@ async function consumirMensajes() {
                         data: await armadojsonff(income),
                       };
 
-                      console.log(
-                        "Datos a enviar:",
-                        JSON.stringify(dataEnviar, null, 2)
-                      );
+
 
                       await enviarColaEnviosAltaFF(dataEnviar);
 
