@@ -662,7 +662,7 @@ async function consumirMensajes() {
 
                       await enviarColaEnviosAltaFF(dataEnviar);
 
-                      AusadosFF[claveusada] = 1;
+                      //  AusadosFF[claveusada] = 1;
                       return true;
                     }
 
@@ -676,7 +676,7 @@ async function consumirMensajes() {
                         token
                       );
 
-                      //  const claveusada = `${sellerid}-${orderid}-${shipmentid}`;
+                      const claveusada = `${sellerid}-${orderid}-${shipmentid}`;
                       if (!Ausados.hasOwnProperty(claveusada)) {
                         const income = {
                           sellerid,
@@ -695,7 +695,7 @@ async function consumirMensajes() {
                         };
 
                         await enviarColaEnviosAlta(dataEnviar);
-                        //   Ausados[claveusada] = 1;
+                        Ausados[claveusada] = 1;
                       }
                     }
                   }
