@@ -514,7 +514,7 @@ async function enviarColaEnviosAltaFF(datajson) {
       persistent: true,
     });
 
-    console.log("Mensaje enviado a la cola insertMLIA:");
+    console.log("Mensaje enviado a la cola insertFF:");
 
     await channel.close();
     await connection.close();
