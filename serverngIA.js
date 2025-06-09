@@ -171,6 +171,7 @@ async function obtenerFechaActual() {
 }
 
 async function armadojsonff(income) {
+
   const orderData = income.orderData;
   const envioML = income.envioML;
   const sellerid = income.sellerid;
@@ -268,6 +269,7 @@ async function armadojsonff(income) {
     ml_vendedor_id: income.sellerid,
     ml_venta_id: orderData.id,
     ml_pack_id: orderData.pack_id,
+    destination_types: income.envioML.logistic_type,
 
     ml_qr_seguridad: "",
     didCliente: income.didCliente,
@@ -641,6 +643,7 @@ async function consumirMensajes() {
                         AordersData.push(orderPack); // Agregar cada orden al array
                       }
 
+
                       const income = {
                         sellerid,
                         didEmpresa,
@@ -652,6 +655,7 @@ async function consumirMensajes() {
                         ia,
                         AordersData, // Ahora contiene todas las órdenes
                       };
+
 
                       const dataEnviar = {
                         operador: "enviosmlia",

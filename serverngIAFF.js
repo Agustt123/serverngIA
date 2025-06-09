@@ -623,6 +623,7 @@ async function consumirMensajes() {
                   const envioML = await obtenerDatosEnvioML(shipmentid, token);
 
                   if (ff == 1) {
+
                     // console.log(envioML);
 
                     const orderid = envioML.order_id;
@@ -663,6 +664,9 @@ async function consumirMensajes() {
                         ia,
                         AordersData, // Ahora contiene todas las órdenes
                       };
+
+                      console.log(income);
+                      return true;
 
                       const dataEnviar = {
                         operador: "enviosmlia",

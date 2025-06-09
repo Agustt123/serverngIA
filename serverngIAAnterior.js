@@ -382,6 +382,8 @@ async function consumirMensajes() {
           if (mensaje) {
             try {
               const data = JSON.parse(mensaje.content.toString());
+
+
               const shipmentid = extractKey(data["resource"]);
               const sellerid = data["sellerid"];
 
@@ -414,6 +416,11 @@ async function consumirMensajes() {
                         operador: "enviosmlia",
                         data: await armadojson(income),
                       };
+
+                      //      console.log(JSON.stringify(dataEnviar));
+
+                      //41    return true
+
 
                       await enviarColaEnviosAlta(dataEnviar);
                       Ausados[claveusada] = 1;
