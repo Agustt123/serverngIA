@@ -673,6 +673,11 @@ async function consumirMensajes() {
                     //uso otro armado jsonff
                     //insrtas el envio
                   } else {
+
+                    // didempresa=diazhome && logistic_type ==  "cross_docking"'
+                    //const paso = await verificarSiPaso(envioML.logistic_type);
+                    //if ( envioML && paso ){
+
                     if (envioML && envioML.logistic_type == "self_service") {
                       const orderid = envioML.order_id;
                       const orderData = await obtenerDatosOrderML(
