@@ -552,6 +552,21 @@ async function getPackData(packId, token) {
     return null;
   }
 }
+async function verificarSiPaso(envioML, didEmpresa) {
+  if (!envioML) return false;
+
+  const tipo = envioML.logistic_type;
+
+  if (tipo === "self_service") {
+    return true;
+  }
+
+  if (didEmpresa === 274 && tipo === "cross_docking") {
+    return true;
+  }
+
+  return false;
+}
 
 async function consumirMensajes() {
   let connection;
@@ -678,7 +693,10 @@ async function consumirMensajes() {
                     //const paso = await verificarSiPaso(envioML.logistic_type);
                     //if ( envioML && paso ){
 
-                    if (envioML && envioML.logistic_type == "self_service") {
+                    const paso = await verificarSiPaso(envioML, didEmpresa);
+
+                    if (paso) {
+
                       const orderid = envioML.order_id;
                       const orderData = await obtenerDatosOrderML(
                         orderid,
