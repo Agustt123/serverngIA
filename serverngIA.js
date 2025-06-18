@@ -636,9 +636,7 @@ async function consumirMensajes() {
                 let ff = sellerdata[0]["ff"] * 1;
                 const ia = sellerdata[0]["ia"] * 1;
 
-                if (didEmpresa == 274 && didCliente == 3 && didCuenta == 28) {
-                  ff = 0;
-                }
+
 
                 const token = await getTokenForSeller(sellerid);
 
