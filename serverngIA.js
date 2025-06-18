@@ -394,7 +394,12 @@ async function armadojson(income) {
 
     // process.exit(0);
   }
-
+  let didMetodoEnvio = 0
+  if (income.envioML.logistic_type === "cross_docking") {
+    didMetodoEnvio = 2;
+  } if (income.envioML.logistic_type === "self_service") {
+    didMetodoEnvio = 3;
+  }
   let data = {
     didDeposito: 1,
     didEmpresa: income.didEmpresa,
@@ -413,6 +418,8 @@ async function armadojson(income) {
     ml_vendedor_id: sellerid,
     ml_venta_id: idorder,
     ml_pack_id: packid,
+    mode: income.envioML.logistic_type,
+    didMetodoEnvio: didMetodoEnvio,
     ml_qr_seguridad: "",
     didCliente: income.didCliente,
     didCuenta: income.didCuenta,
