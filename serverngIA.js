@@ -318,7 +318,7 @@ async function armadojsonff(income) {
     enviosItems: AfinalItems,
     orders: Aorders, // Aquí se agrega la nueva estructura
   };
-  console.log(data, "dataaa");
+  // console.log(data, "dataaa");
 
   return data;
 }
