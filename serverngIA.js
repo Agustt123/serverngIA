@@ -251,7 +251,7 @@ async function armadojsonff(income) {
       items: AenviosItems,
     });
   }
-  let didMetodoEnvio = 99
+  let didMetodoEnvio = 0
   if (income.envioML.logistic_type === "cross_docking") {
     didMetodoEnvio = 2;
   } if (income.envioML.logistic_type === "self_service") {
@@ -318,7 +318,7 @@ async function armadojsonff(income) {
     enviosItems: AfinalItems,
     orders: Aorders, // Aquí se agrega la nueva estructura
   };
-  // console.log(data, "dataaa");
+  console.log(data.mode, "dataaa");
 
   return data;
 }
