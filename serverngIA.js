@@ -251,6 +251,13 @@ async function armadojsonff(income) {
       items: AenviosItems,
     });
   }
+  let didMetodoEnvio = 99
+  if (income.envioML.logistic_type === "cross_docking") {
+    didMetodoEnvio = 2;
+  } if (income.envioML.logistic_type === "self_service") {
+    didMetodoEnvio = 3;
+  }
+
 
   let data = {
     didDeposito: 1,
@@ -269,7 +276,9 @@ async function armadojsonff(income) {
     ml_vendedor_id: income.sellerid,
     ml_venta_id: orderData.id,
     ml_pack_id: orderData.pack_id,
-    destination_types: income.envioML.logistic_type,
+    mode: income.envioML.logistic_type,
+    didMetodoEnvio: didMetodoEnvio,
+
 
     ml_qr_seguridad: "",
     didCliente: income.didCliente,
@@ -309,6 +318,7 @@ async function armadojsonff(income) {
     enviosItems: AfinalItems,
     orders: Aorders, // Aquí se agrega la nueva estructura
   };
+  console.log(data, "dataaa");
 
   return data;
 }
