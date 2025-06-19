@@ -635,10 +635,8 @@ async function consumirMensajes() {
                 const didEmpresa = sellerdata[0]["didEmpresa"] * 1;
                 let ff = sellerdata[0]["ff"] * 1;
                 const ia = sellerdata[0]["ia"] * 1;
-
-                if (didEmpresa == 274) {
-                  console.log("entro a 274");
-
+                if (didEmpresa == 274 && didCliente == 3 && didCuenta == 28) {
+                  ff = 0;
                 }
 
                 const token = await getTokenForSeller(sellerid);
