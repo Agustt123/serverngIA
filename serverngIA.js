@@ -578,6 +578,10 @@ async function verificarSiPaso(envioML, didEmpresa) {
     return true;
   }
 
+  if (didEmpresa === 97 && tipo === "fulfillment") {
+    return false;
+  }
+
   if (didEmpresa === 274 && tipo === "cross_docking") {
     return true;
   }
@@ -645,60 +649,65 @@ async function consumirMensajes() {
                   const envioML = await obtenerDatosEnvioML(shipmentid, token);
 
                   if (ff == 1) {
+
+                    const paso = await verificarSiPaso(envioML, didEmpresa);
                     // console.log(envioML);
+                    if (paso) {
 
-                    const orderid = envioML.order_id;
-                    const orderData = await obtenerDatosOrderML(orderid, token);
-                    //     console.log(orderData);
+                      const orderid = envioML.order_id;
+                      const orderData = await obtenerDatosOrderML(orderid, token);
+                      //     console.log(orderData);
 
-                    const packid = orderData.pack_id ?? ""; //fijarse si es null poner en vacio
-                    const claveusada = `${sellerid}-${packid}-${orderid}-${shipmentid}`;
+                      const packid = orderData.pack_id ?? ""; //fijarse si es null poner en vacio
+                      const claveusada = `${sellerid}-${packid}-${orderid}-${shipmentid}`;
 
-                    if (!AusadosFF.hasOwnProperty(claveusada)) {
-                      let Aorders = [];
-                      let AordersData = [];
-                      if (packid != "") {
-                        const datapack = await getPackData(packid, token);
-                        const Aorderspack = datapack.orders;
-                        Aorders = Aorderspack.map((order) => order.id);
-                      } else {
-                        Aorders.push(orderid);
+                      if (!AusadosFF.hasOwnProperty(claveusada)) {
+                        let Aorders = [];
+                        let AordersData = [];
+                        if (packid != "") {
+                          const datapack = await getPackData(packid, token);
+                          const Aorderspack = datapack.orders;
+                          Aorders = Aorderspack.map((order) => order.id);
+                        } else {
+                          Aorders.push(orderid);
+                        }
+
+                        //recorro Aorders y me traigo los datos de la venta
+                        for (const orderId of Aorders) {
+                          let orderPack = await obtenerDatosOrderML(
+                            orderId,
+                            token
+                          );
+                          AordersData.push(orderPack); // Agregar cada orden al array
+                        }
+
+
+                        const income = {
+                          sellerid,
+                          didEmpresa,
+                          didCliente,
+                          didCuenta,
+                          orderData,
+                          envioML,
+                          ff,
+                          ia,
+                          AordersData, // Ahora contiene todas las órdenes
+                        };
+
+
+                        const dataEnviar = {
+                          operador: "enviosmlia",
+                          data: await armadojsonff(income),
+                        };
+
+
+
+                        await enviarColaEnviosAltaFF(dataEnviar);
+
+                        //  AusadosFF[claveusada] = 1;
+                        return true;
+
                       }
-
-                      //recorro Aorders y me traigo los datos de la venta
-                      for (const orderId of Aorders) {
-                        let orderPack = await obtenerDatosOrderML(
-                          orderId,
-                          token
-                        );
-                        AordersData.push(orderPack); // Agregar cada orden al array
-                      }
-
-
-                      const income = {
-                        sellerid,
-                        didEmpresa,
-                        didCliente,
-                        didCuenta,
-                        orderData,
-                        envioML,
-                        ff,
-                        ia,
-                        AordersData, // Ahora contiene todas las órdenes
-                      };
-
-
-                      const dataEnviar = {
-                        operador: "enviosmlia",
-                        data: await armadojsonff(income),
-                      };
-
-
-
-                      await enviarColaEnviosAltaFF(dataEnviar);
-
-                      //  AusadosFF[claveusada] = 1;
-                      return true;
                     }
 
                     //uso otro armado jsonff
