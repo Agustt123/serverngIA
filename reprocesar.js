@@ -3,7 +3,7 @@ const amqp = require("amqplib");
 
 // Configuración RabbitMQ
 const rabbitMQUrl = "amqp://lightdata:QQyfVBKRbw6fBb@158.69.131.226:5672";
-const queue = "enviosml_ia";
+const queue = "enviosml_ia2";
 
 // Configuración MySQL
 const con = mysql.createPool({
@@ -38,7 +38,7 @@ async function enviarMensajes() {
             [FECHA_INICIO, FECHA_FIN]
         );
         console.log(`🔍 Se encontraron ${rows.length} registros para enviar.`);
-
+        let contador = 0;
         for (const row of rows) {
 
 
@@ -53,7 +53,7 @@ async function enviarMensajes() {
             });
 
             console.log("📤 Enviado:", msg);
-
+            contador++;
         }
         console.log("✅ Todos los mensajes fueron enviados.");
     } catch (err) {
