@@ -469,9 +469,17 @@ async function obtenerSellersActivos() {
     const response = await axios.get(
       "https://callbackml.lightdata.app/sellersactivos.php?operador=showallV2"
     );
-    AsellersData = response.data;
+
+    // Solo actualizo si viene con datos
+    if (response.data && Object.keys(response.data).length > 0) {
+      AsellersData = response.data;
+      console.log("✅ AsellersData actualizado con", Object.keys(AsellersData).length, "sellers.");
+    } else {
+      console.warn("⚠️ Datos vacíos al intentar actualizar AsellersData. Manteniendo los anteriores.");
+    }
+
   } catch (error) {
-    console.error("Error al obtener sellers activos:", error.message);
+    console.error("❌ Error al obtener sellers activos:", error.message);
     throw error;
   }
 }
