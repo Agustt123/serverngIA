@@ -318,6 +318,7 @@ async function armadojsonff(income) {
     enviosItems: AfinalItems,
     orders: Aorders, // Aquí se agrega la nueva estructura
   };
+
   console.log(data.mode, "dataaa");
 
   return data;
@@ -647,6 +648,8 @@ async function consumirMensajes() {
                 }
                 console.log("Datos del seller:PASOOO");
 
+                // data , resourse, didempresa, didcliente, didcuenta , ff, ia 
+                //le pegue a la cola logs_callback2
 
                 const token = await getTokenForSeller(sellerid);
 
