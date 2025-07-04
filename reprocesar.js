@@ -3,7 +3,7 @@ const amqp = require("amqplib");
 
 // Configuración RabbitMQ
 const rabbitMQUrl = "amqp://lightdata:QQyfVBKRbw6fBb@158.69.131.226:5672";
-const queue = "enviosml_ia2";
+const queue = "enviosml_ia";
 
 // Configuración MySQL
 const con = mysql.createPool({
