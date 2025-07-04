@@ -632,6 +632,8 @@ async function consumirMensajes() {
               const sellerid = data["sellerid"];
               console.log(data);
               console.log("Evaluando sellerid:", sellerid);
+              console.log(JSON.stringify(AsellersData, null, 2));
+
               if (AsellersData && AsellersData[sellerid]) {
                 const sellerdata = AsellersData[sellerid];
                 const didCliente = sellerdata[0]["didCliente"] * 1;
