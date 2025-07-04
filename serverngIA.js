@@ -629,7 +629,8 @@ async function consumirMensajes() {
 
               const data = JSON.parse(mensaje.content.toString());
               const shipmentid = extractKey(data["resource"]);
-              const sellerid = data["sellerid"];
+              const sellerid = String(data["sellerid"]);
+
               console.log(data);
               console.log("Evaluando sellerid:", sellerid);
               console.log(JSON.stringify(AsellersData[sellerid], null, 2));
