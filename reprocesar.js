@@ -34,18 +34,18 @@ async function enviarMensajes() {
 
         console.log("Consultando base de datos...");
         const [rows] = await con.query(
-            `SELECT resource, mensaje, fecha FROM callback_incomes WHERE fecha >= ? AND fecha <= ?`,
+            `SELECT resource, mensaje, autofecha FROM callback_incomes WHERE autofecha >= ? AND autofecha <= ?`,
             [FECHA_INICIO, FECHA_FIN]
         );
         console.log(`🔍 Se encontraron ${rows.length} registros para enviar.`);
 
         for (const row of rows) {
-            if (!row.resource || !row.mensaje || !row.fecha) continue;
+            if (!row.resource || !row.mensaje || !row.autofecha) continue;
 
             const msg = {
                 resource: row.resource,
                 mensaje: row.mensaje,
-                fecha: row.fecha,
+                fecha: row.autofecha,
             };
 
             await rabbitChannel.sendToQueue(queue, Buffer.from(JSON.stringify(msg)), {
