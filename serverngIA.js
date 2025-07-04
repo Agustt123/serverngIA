@@ -542,6 +542,39 @@ async function enviarColaEnviosAltaFF(datajson) {
     console.error("Error al enviar el mensaje a la cola:", error);
   }
 }
+async function enviarColaLogs(datajson) {
+  const queue = "callback_logs";
+  const message = datajson;
+
+  console.log("mensaje a enviar:");
+  //console.log(message);
+
+  try {
+    const connection = await amqp.connect({
+      protocol: "amqp",
+      hostname: "158.69.131.226",
+      port: 5672,
+      username: "lightdata",
+      password: "QQyfVBKRbw6fBb",
+      heartbeat: 30,
+    });
+
+    const channel = await connection.createChannel();
+    await channel.assertQueue(queue, { durable: true });
+    await channel.prefetch(20);
+
+    channel.sendToQueue(queue, Buffer.from(JSON.stringify(message)), {
+      persistent: true,
+    });
+
+    console.log("Mensaje enviado a la cola insertMLIA:");
+
+    await channel.close();
+    await connection.close();
+  } catch (error) {
+    console.error("Error al enviar el mensaje a la cola:", error);
+  }
+}
 
 async function getPackData(packId, token) {
   try {
@@ -631,6 +664,9 @@ async function consumirMensajes() {
               const data = JSON.parse(mensaje.content.toString());
               const shipmentid = extractKey(data["resource"]);
               const sellerid = String(data["sellerid"]);
+
+
+              await enviarColaLogs(data);
 
               /*      console.log(data);
                     console.log("Evaluando sellerid:", sellerid);
