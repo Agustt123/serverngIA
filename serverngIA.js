@@ -632,9 +632,9 @@ async function consumirMensajes() {
               const shipmentid = extractKey(data["resource"]);
               const sellerid = String(data["sellerid"]);
 
-              console.log(data);
-              console.log("Evaluando sellerid:", sellerid);
-              console.log(JSON.stringify(AsellersData[sellerid], null, 2));
+              /*      console.log(data);
+                    console.log("Evaluando sellerid:", sellerid);
+                    console.log(JSON.stringify(AsellersData[sellerid], null, 2));*/
 
               if (AsellersData && AsellersData[sellerid]) {
                 const sellerdata = AsellersData[sellerid];
@@ -646,7 +646,7 @@ async function consumirMensajes() {
                 if (didEmpresa == 274 && didCliente == 3 && didCuenta == 28) {
                   ff = 0;
                 }
-                console.log("Datos del seller:PASOOO");
+                //     console.log("Datos del seller:PASOOO");
 
                 // data , resourse, didempresa, didcliente, didcuenta , ff, ia 
                 //le pegue a la cola logs_callback2
@@ -725,10 +725,10 @@ async function consumirMensajes() {
                     // didempresa=diazhome && logistic_type ==  "cross_docking"'
                     //const paso = await verificarSiPaso(envioML.logistic_type);
                     //if ( envioML && paso ){
-                    console.log("hola");
+                    //   console.log("hola");
 
                     const paso = await verificarSiPaso(envioML, didEmpresa);
-                    console.log("paso", paso);
+                    //   console.log("paso", paso);
 
                     if (paso) {
 
