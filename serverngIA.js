@@ -470,19 +470,29 @@ async function obtenerSellersActivos() {
       "https://callbackml.lightdata.app/sellersactivos.php?operador=showallV2"
     );
 
-    // Solo actualizo si viene con datos
     if (response.data && Object.keys(response.data).length > 0) {
       AsellersData = response.data;
-      console.log("✅ AsellersData actualizado con", Object.keys(AsellersData).length, "sellers.");
+      console.log(`✅ AsellersData actualizado con ${Object.keys(AsellersData).length} sellers.`);
     } else {
-      console.warn("⚠️ Datos vacíos al intentar actualizar AsellersData. Manteniendo los anteriores.");
+      console.warn("⚠️ Datos vacíos. No se actualiza AsellersData.");
+      await enviarColaLogs({
+        tipo: "warning",
+        mensaje: "⚠️ Sellers activos vino vacío. Posible error de Redis.",
+        fecha: new Date().toISOString(),
+      });
     }
 
   } catch (error) {
     console.error("❌ Error al obtener sellers activos:", error.message);
+    await enviarColaLogs({
+      tipo: "error",
+      mensaje: `❌ Error al obtener sellers activos: ${error.message}`,
+      fecha: new Date().toISOString(),
+    });
     throw error;
   }
 }
+
 
 async function enviarColaEnviosAlta(datajson) {
   const queue = "insertMLIA";
