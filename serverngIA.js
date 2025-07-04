@@ -479,7 +479,7 @@ async function enviarColaEnviosAlta(datajson) {
   const queue = "insertMLIA";
   const message = datajson;
 
-  //console.log("mensaje a enviar:");
+  console.log("mensaje a enviar:");
   //console.log(message);
 
   try {
@@ -717,8 +717,10 @@ async function consumirMensajes() {
                     // didempresa=diazhome && logistic_type ==  "cross_docking"'
                     //const paso = await verificarSiPaso(envioML.logistic_type);
                     //if ( envioML && paso ){
+                    console.log("hola");
 
                     const paso = await verificarSiPaso(envioML, didEmpresa);
+                    console.log("paso", paso);
 
                     if (paso) {
 
