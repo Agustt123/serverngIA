@@ -40,7 +40,7 @@ async function enviarMensajes() {
         console.log(`🔍 Se encontraron ${rows.length} registros para enviar.`);
 
         for (const row of rows) {
-            if (!row.resource || !row.mensaje || !row.autofecha) continue;
+
 
             const msg = {
                 resource: row.resource,
@@ -53,8 +53,8 @@ async function enviarMensajes() {
             });
 
             console.log("📤 Enviado:", msg);
-        }
 
+        }
         console.log("✅ Todos los mensajes fueron enviados.");
     } catch (err) {
         console.error("❌ Error durante el procesamiento:", err);
