@@ -34,7 +34,7 @@ async function enviarMensajes() {
 
         console.log("Consultando base de datos...");
         const [rows] = await con.query(
-            `SELECT resource, mensaje, autofecha FROM callback_incomes WHERE autofecha >= ? AND autofecha <= ?`,
+            `SELECT resource, seller_id, autofecha FROM db_shipments WHERE autofecha >= ? AND autofecha <= ?`,
             [FECHA_INICIO, FECHA_FIN]
         );
         console.log(`🔍 Se encontraron ${rows.length} registros para enviar.`);
@@ -44,7 +44,7 @@ async function enviarMensajes() {
 
             const msg = {
                 resource: row.resource,
-                mensaje: row.mensaje,
+                sellerid: row.seller_id,
                 fecha: row.autofecha,
             };
 
