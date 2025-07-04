@@ -567,7 +567,7 @@ async function enviarColaLogs(datajson) {
       persistent: true,
     });
 
-    console.log("Mensaje enviado a la cola insertMLIA:");
+    console.log("Mensaje enviado a la cola de logs:");
 
     await channel.close();
     await connection.close();
