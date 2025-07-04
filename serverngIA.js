@@ -642,6 +642,8 @@ async function consumirMensajes() {
                 if (didEmpresa == 274 && didCliente == 3 && didCuenta == 28) {
                   ff = 0;
                 }
+                console.log("Datos del seller:PASOOO");
+
 
                 const token = await getTokenForSeller(sellerid);
 
