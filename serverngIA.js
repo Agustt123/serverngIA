@@ -698,8 +698,7 @@ async function consumirMensajes() {
               if (!AsellersData || !AsellersData[sellerid]) {
                 await obtenerSellersActivos();
               }
-              console.log("Evaluando sellerid:", sellerid);
-              console.log(JSON.stringify(AsellersData));
+
 
               const sellerdata = AsellersData?.[sellerid];
               if (sellerdata && sellerdata.length > 0) {
