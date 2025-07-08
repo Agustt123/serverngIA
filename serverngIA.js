@@ -615,7 +615,17 @@ async function getPackData(packId, token) {
   }
 }
 async function verificarSiPaso(envioML, didEmpresa) {
+
+
+
   if (!envioML) return false;
+  if (didEmpresa == 170 || didEmpresa == undefined) {
+    console.log("Empresa 170, no se procesa el mensaje");
+    console.log(`Mensaje ignorado: ${JSON.stringify(envioML)}`);
+
+
+
+  }
 
   const tipo = envioML.logistic_type;
 
@@ -688,6 +698,8 @@ async function consumirMensajes() {
               if (!AsellersData || !AsellersData[sellerid]) {
                 await obtenerSellersActivos();
               }
+              console.log("Evaluando sellerid:", sellerid);
+              console.log(JSON.stringify(AsellersData));
 
               const sellerdata = AsellersData?.[sellerid];
               if (sellerdata && sellerdata.length > 0) {
