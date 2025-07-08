@@ -499,6 +499,7 @@ async function enviarColaEnviosAlta(datajson) {
   const message = datajson;
 
   console.log("mensaje a enviar:");
+
   //console.log(message);
 
   try {
@@ -686,6 +687,7 @@ async function consumirMensajes() {
 
               await enviarColaLogs(data);
 
+
               /*      console.log(data);
                     console.log("Evaluando sellerid:", sellerid);
                     console.log(JSON.stringify(AsellersData[sellerid], null, 2));*/
@@ -703,6 +705,14 @@ async function consumirMensajes() {
                 const ia = sellerdata[0]["ia"] * 1;
                 if (didEmpresa == 274 && didCliente == 3 && didCuenta == 28) {
                   ff = 0;
+                }
+
+                if (didEmpresa == 170) {
+                  console.log("Empresa 170, no se procesa el mensaje");
+                  console.log(`Mensaje ignorado: ${JSON.stringify(data)}`);
+
+
+
                 }
                 //     console.log("Datos del seller:PASOOO");
 
