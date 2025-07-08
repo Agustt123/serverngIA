@@ -688,13 +688,15 @@ async function consumirMensajes() {
               if (!AsellersData || !AsellersData[sellerid]) {
                 await obtenerSellersActivos();
               }
-              if (AsellersData && AsellersData[sellerid]) {
-                const sellerdata = AsellersData[sellerid];
+
+              const sellerdata = AsellersData?.[sellerid];
+              if (sellerdata && sellerdata.length > 0) {
                 const didCliente = sellerdata[0]["didCliente"] * 1;
                 const didCuenta = sellerdata[0]["didCuenta"] * 1;
                 const didEmpresa = sellerdata[0]["didEmpresa"] * 1;
                 let ff = sellerdata[0]["ff"] * 1;
                 const ia = sellerdata[0]["ia"] * 1;
+
                 if (didEmpresa == 274 && didCliente == 3 && didCuenta == 28) {
                   ff = 0;
                 }
