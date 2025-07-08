@@ -475,20 +475,12 @@ async function obtenerSellersActivos() {
       console.log(`✅ AsellersData actualizado con ${Object.keys(AsellersData).length} sellers.`);
     } else {
       console.warn("⚠️ Datos vacíos. No se actualiza AsellersData.");
-      await enviarColaLogs({
-        tipo: "warning",
-        mensaje: "⚠️ Sellers activos vino vacío. Posible error de Redis.",
-        fecha: new Date().toISOString(),
-      });
+
     }
 
   } catch (error) {
     console.error("❌ Error al obtener sellers activos:", error.message);
-    await enviarColaLogs({
-      tipo: "error",
-      mensaje: `❌ Error al obtener sellers activos: ${error.message}`,
-      fecha: new Date().toISOString(),
-    });
+
     throw error;
   }
 }
