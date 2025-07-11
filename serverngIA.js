@@ -587,6 +587,42 @@ async function enviarColaLogs(datajson) {
   }
 }
 
+async function enviarColaLogsInfo(datajson, data) {
+  const queue = "callback_logs";
+  const message = {
+    datajson,
+    data,
+  };
+
+  console.log("mensaje a enviar:", message);
+
+  try {
+    const connection = await amqp.connect({
+      protocol: "amqp",
+      hostname: "158.69.131.226",
+      port: 5672,
+      username: "lightdata",
+      password: "QQyfVBKRbw6fBb",
+      heartbeat: 30,
+    });
+
+    const channel = await connection.createChannel();
+    await channel.assertQueue(queue, { durable: true });
+    await channel.prefetch(20);
+
+    channel.sendToQueue(queue, Buffer.from(JSON.stringify(message)), {
+      persistent: true,
+    });
+
+    console.log("Mensaje enviado a la cola de logs.");
+
+    await channel.close();
+    await connection.close();
+  } catch (error) {
+    console.error("Error al enviar el mensaje a la cola:", error);
+  }
+}
+
 async function getPackData(packId, token) {
   try {
     const url = `https://api.mercadolibre.com/packs//${packId}`;
@@ -777,6 +813,8 @@ async function consumirMensajes() {
                         };
 
 
+
+
                         const dataEnviar = {
                           operador: "enviosmlia",
                           data: await armadojsonff(income),
@@ -785,6 +823,7 @@ async function consumirMensajes() {
 
 
                         await enviarColaEnviosAltaFF(dataEnviar);
+                        await enviarColaLogsInfo(data, dataEnviar.data);
 
                         //  AusadosFF[claveusada] = 1;
                         return true;
