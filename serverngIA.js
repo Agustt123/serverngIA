@@ -823,7 +823,7 @@ async function consumirMensajes() {
 
 
                         await enviarColaEnviosAltaFF(dataEnviar);
-                        await enviarColaLogsInfo(data, dataEnviar.data);
+
 
                         //  AusadosFF[claveusada] = 1;
                         return true;
@@ -870,6 +870,7 @@ async function consumirMensajes() {
                         };
 
                         await enviarColaEnviosAlta(dataEnviar);
+                        await enviarColaLogsInfo(data, dataEnviar.data);
                         Ausados[claveusada] = 1;
                       }
                     }
