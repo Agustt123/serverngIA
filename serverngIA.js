@@ -588,7 +588,7 @@ async function enviarColaLogs(datajson) {
 }
 
 async function enviarColaLogsInfo(datajson, data) {
-  const queue = "callback_logs";
+  const queue = "callback_logsInfo";
   const message = {
     datajson,
     data,
