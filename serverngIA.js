@@ -587,11 +587,12 @@ async function enviarColaLogs(datajson) {
   }
 }
 
-async function enviarColaLogsInfo(datajson, data) {
+async function enviarColaLogsInfo(datajson, data, type) {
   const queue = "callback_logsInfo";
   const message = {
     datajson,
     data,
+    type
   };
 
   console.log("mensaje a enviar:", message);
@@ -870,7 +871,7 @@ async function consumirMensajes() {
                         };
 
                         await enviarColaEnviosAlta(dataEnviar);
-                        await enviarColaLogsInfo(data, dataEnviar.data);
+                        await enviarColaLogsInfo(data, dataEnviar.data, envioML.logistic_type);
                         Ausados[claveusada] = 1;
                       }
                     }
