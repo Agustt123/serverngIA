@@ -690,9 +690,10 @@ async function consumirMensajes() {
               await enviarColaLogs(data);
 
 
-              /*      console.log(data);
-                    console.log("Evaluando sellerid:", sellerid);
-                    console.log(JSON.stringify(AsellersData[sellerid], null, 2));*/
+              console.log(data);
+              /*   
+                                console.log("Evaluando sellerid:", sellerid);
+                                console.log(JSON.stringify(AsellersData[sellerid], null, 2));*/
 
 
               if (!AsellersData || !AsellersData[sellerid]) {
