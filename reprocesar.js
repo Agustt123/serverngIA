@@ -43,8 +43,8 @@ async function enviarMensajes() {
 
 
             const msg = {
-                resource: row.resource,
-                sellerid: row.seller_id,
+                resource: "/shipments/45306835649",
+                sellerid: 310173310,
                 fecha: row.autofecha,
             };
 
