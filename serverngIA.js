@@ -264,6 +264,7 @@ async function armadojsonff(income) {
     didEmpresa: income.didEmpresa,
     ff: income.ff,
     ia: income.ia,
+    lote: "FFIA",
     operador: "enviosMLIA",
     fulfillment: fulfillment,
     gtoken: "",
