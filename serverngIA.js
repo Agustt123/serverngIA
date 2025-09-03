@@ -751,9 +751,11 @@ async function consumirMensajes() {
                   ff = 0;
                 }
 
-                if (didEmpresa == 170) {
-                  console.log("Empresa 170, no se procesa el mensaje");
-                  console.log(`Mensaje ignorado: ${JSON.stringify(data)}`);
+                if (didEmpresa == 198) {
+                  console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+                  console.log(data);
+
+
 
 
 
@@ -836,6 +838,7 @@ async function consumirMensajes() {
                     //uso otro armado jsonff
                     //insrtas el envio
                   } else {
+
 
                     // didempresa=diazhome && logistic_type ==  "cross_docking"'
                     //const paso = await verificarSiPaso(envioML.logistic_type);
