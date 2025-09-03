@@ -652,7 +652,21 @@ async function getPackData(packId, token) {
     return null;
   }
 }
-async function verificarSiPaso(envioML, didEmpresa) {
+async function verificarSiPaso(envioML, didEmpresa, sellerid) {
+
+  const allowedSellers = [
+    "1593590494",
+    "298477234",
+    "1433300659",
+    "51990749",
+    "746339074",
+    "23598767",
+    "135036152",
+    "209906959",
+    "2436413856",
+    "1076740090",
+    "452306476"
+  ];
 
 
 
@@ -671,6 +685,12 @@ async function verificarSiPaso(envioML, didEmpresa) {
     return true;
   }
 
+  if (didEmpresa === 97 && tipo === "xd_drop_off" && allowedSellers.includes(sellerid)) {
+    return true;
+  }
+  if (didEmpresa === 97 && tipo === "drop_off" && sellerid === "1593590494") {
+    return true;
+  }
   if (didEmpresa === 97 && tipo === "fulfillment") {
     return false;
   }
@@ -845,7 +865,7 @@ async function consumirMensajes() {
                     //if ( envioML && paso ){
                     //   console.log("hola");
 
-                    const paso = await verificarSiPaso(envioML, didEmpresa);
+                    const paso = await verificarSiPaso(envioML, didEmpresa, sellerid);
                     //   console.log("paso", paso);
 
                     if (paso) {
