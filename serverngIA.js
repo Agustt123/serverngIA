@@ -654,7 +654,7 @@ async function getPackData(packId, token) {
 }
 async function verificarSiPaso(envioML, didEmpresa, sellerid) {
 
-  const allowedSellers = [
+  const xd_drop_off = [
     "1593590494",
     "298477234",
     "1433300659",
@@ -666,6 +666,20 @@ async function verificarSiPaso(envioML, didEmpresa, sellerid) {
     "2436413856",
     "1076740090",
     "452306476"
+  ];
+  const drop_off = [
+    "1593590494",
+    "298477234",
+    "1433300659",
+    "51990749",
+    "746339074",
+    "23598767",
+    "135036152",
+    "209906959",
+    "2436413856",
+    "1076740090",
+    "452306476",
+
   ];
 
 
@@ -685,10 +699,10 @@ async function verificarSiPaso(envioML, didEmpresa, sellerid) {
     return true;
   }
 
-  if (didEmpresa === 97 && tipo === "xd_drop_off" && allowedSellers.includes(sellerid)) {
+  if (didEmpresa === 97 && tipo === "xd_drop_off" && xd_drop_off.includes(sellerid)) {
     return true;
   }
-  if (didEmpresa === 97 && tipo === "drop_off" && sellerid === "1593590494") {
+  if (didEmpresa === 97 && tipo === "drop_off" && drop_off.includes(sellerid)) {
     return true;
   }
   if (didEmpresa === 97 && tipo === "fulfillment") {
