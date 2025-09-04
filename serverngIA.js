@@ -705,6 +705,9 @@ async function verificarSiPaso(envioML, didEmpresa, sellerid) {
   if (didEmpresa === 97 && tipo === "drop_off" && drop_off.includes(sellerid)) {
     return true;
   }
+  if (didEmpresa === 97 && tipo === "cross_docking" && drop_off.includes(sellerid)) {
+    return true;
+  }
   if (didEmpresa === 97 && tipo === "fulfillment") {
     return false;
   }
