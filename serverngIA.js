@@ -772,7 +772,7 @@ async function consumirMensajes() {
                   ff = 0;
                 }
 
-                if (didEmpresa == 97) {
+                if (didEmpresa == 97 && sellerid == "2436413856") {
                   console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaa");
                   console.log(data);
 
