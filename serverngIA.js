@@ -683,6 +683,10 @@ async function verificarSiPaso(envioML, didEmpresa, sellerid) {
   }
 
   // Reglas específicas por empresa y tipo
+  if (sellersValidos.includes(sellerid) && (tipo == "cross_docking" || tipo == "drop_off" || tipo == "xd_drop_off")) {
+
+    return true;
+  }
   if (didEmpresa === 97 && tipo === "xd_drop_off" && sellersValidos.includes(sellerid)) {
     return true;
   }
@@ -696,10 +700,6 @@ async function verificarSiPaso(envioML, didEmpresa, sellerid) {
     return false;
   }
   if (didEmpresa === 274 && tipo === "cross_docking" && sellersValidos.includes(sellerid)) {
-    return true;
-  }
-  if (sellersValidos.includes(sellerid) && (tipo === "cross_docking" || tipo === "drop_off" || tipo === "xd_drop_off")) {
-
     return true;
   }
 }
