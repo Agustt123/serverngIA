@@ -817,6 +817,8 @@ async function consumirMensajes() {
 
                         //recorro Aorders y me traigo los datos de la venta
                         for (const orderId of Aorders) {
+                          console.log("ENTROOO 1");
+
                           let orderPack = await obtenerDatosOrderML(
                             orderId,
                             token
