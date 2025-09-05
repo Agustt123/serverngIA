@@ -486,7 +486,23 @@ async function obtenerSellersActivos() {
   }
 }
 
+async function obtenerSellersActivosV2() {
+  try {
+    const response = redisClient.hGet("sellersactivosV2");
+    if (response.data && Object.keys(response.data).length > 0) {
+      AsellersData = response.data;
+      console.log(`✅ AsellersData actualizado con ${Object.keys(AsellersData).length} sellers.`);
+    } else {
+      console.warn("⚠️ Datos vacíos. No se actualiza AsellersData.");
 
+    }
+
+  } catch (error) {
+    console.error("❌ Error al obtener sellers activos:", error.message);
+
+    throw error;
+  }
+}
 async function enviarColaEnviosAlta(datajson) {
   const queue = "insertMLIA";
   const message = datajson;
