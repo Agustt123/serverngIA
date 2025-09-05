@@ -806,7 +806,7 @@ async function consumirMensajes() {
                       console.log("llegamosssssssssssssssssssss 2,5");
                     }
 
-                    const paso = await verificarSiPaso(envioML, didEmpresa);
+                    const paso = await verificarSiPaso(envioML, didEmpresa, sellerid);
                     if (paso) {
                       if (didEmpresa == 97 && sellerid == "2436413856") {
                         console.log("llegamosssssssssssssssssssss 3");
