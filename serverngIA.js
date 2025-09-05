@@ -320,7 +320,7 @@ async function armadojsonff(income) {
     orders: Aorders, // Aquí se agrega la nueva estructura
   };
 
-  console.log(data.mode, "dataaa");
+  //  console.log(data.mode, "dataaa");
 
   return data;
 }
@@ -491,7 +491,7 @@ async function enviarColaEnviosAlta(datajson) {
   const queue = "insertMLIA";
   const message = datajson;
 
-  console.log("mensaje a enviar:");
+  //console.log("mensaje a enviar:");
 
   //console.log(message);
 
@@ -596,7 +596,7 @@ async function enviarColaLogsInfo(datajson, data, type) {
     type
   };
 
-  console.log("mensaje a enviar:", message);
+  //console.log("mensaje a enviar:", message);
 
   try {
     const connection = await amqp.connect({
@@ -846,6 +846,7 @@ async function consumirMensajes() {
                         };
 
 
+                        console.log("enviando enviosDSSDADSADDDDDDDDDDDDDDDDDDmlia 0", JSON.stringify(dataEnviar));
 
                         await enviarColaEnviosAltaFF(dataEnviar);
 
