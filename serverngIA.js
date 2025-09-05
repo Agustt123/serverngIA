@@ -785,8 +785,13 @@ async function consumirMensajes() {
 
                 // data , resourse, didempresa, didcliente, didcuenta , ff, ia 
                 //le pegue a la cola logs_callback2
+                console.log("llegamosssssssssssssssssssss 1");
 
                 const token = await getTokenForSeller(sellerid);
+
+                console.log("llegamosssssssssssssssssssss 2");
+
+
 
                 if (token != -1) {
                   const envioML = await obtenerDatosEnvioML(shipmentid, token);
