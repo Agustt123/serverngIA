@@ -749,7 +749,7 @@ async function consumirMensajes() {
               await enviarColaLogs(data);
 
 
-              console.log(data);
+              //   console.log(data);
               /*   
                                 console.log("Evaluando sellerid:", sellerid);
                                 console.log(JSON.stringify(AsellersData[sellerid], null, 2));*/
@@ -772,7 +772,7 @@ async function consumirMensajes() {
                   ff = 0;
                 }
 
-                if (didEmpresa == 198) {
+                if (didEmpresa == 97) {
                   console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaa");
                   console.log(data);
 
@@ -794,7 +794,7 @@ async function consumirMensajes() {
                   if (ff == 1) {
 
                     const paso = await verificarSiPaso(envioML, didEmpresa);
-                    // console.log(envioML);
+                    console.log("pasooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo");
                     if (paso) {
 
                       const orderid = envioML.order_id;
