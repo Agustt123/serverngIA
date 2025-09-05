@@ -684,6 +684,8 @@ async function verificarSiPaso(envioML, didEmpresa, sellerid) {
 
   // Reglas específicas por empresa y tipo
   if (sellersValidos.includes(sellerid) && (tipo == "cross_docking" || tipo == "drop_off" || tipo == "xd_drop_off")) {
+    console.log("DSADADASDASDAASDASD");
+
 
     return true;
   }
