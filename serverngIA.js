@@ -800,6 +800,9 @@ async function consumirMensajes() {
                   const envioML = await obtenerDatosEnvioML(shipmentid, token);
 
                   if (ff == 1) {
+                    if (didEmpresa == 97 && sellerid == "2436413856") {
+                      console.log("llegamosssssssssssssssssssss 2,5");
+                    }
 
                     const paso = await verificarSiPaso(envioML, didEmpresa);
                     if (paso) {
