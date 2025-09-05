@@ -774,27 +774,12 @@ async function consumirMensajes() {
                   ff = 0;
                 }
 
-                if (didEmpresa == 97 && sellerid == "2436413856") {
-                  console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaa");
-                  console.log(data);
 
 
-
-
-
-                }
-
-                if (didEmpresa == 97 && sellerid == "2436413856") {
-                  console.log("llegamosssssssssssssssssssss 1");
-                  console.log("MI FF ES:", ff);
-
-                }
 
                 const token = await getTokenForSeller(sellerid);
 
-                if (didEmpresa == 97 && sellerid == "2436413856") {
-                  console.log("llegamosssssssssssssssssssss 2");
-                }
+
 
 
 
@@ -802,21 +787,17 @@ async function consumirMensajes() {
                   const envioML = await obtenerDatosEnvioML(shipmentid, token);
 
                   if (ff == 1) {
-                    if (didEmpresa == 97 && sellerid == "2436413856") {
-                      console.log("llegamosssssssssssssssssssss 2,5");
-                    }
+
 
                     const paso = await verificarSiPaso(envioML, didEmpresa, sellerid);
                     if (paso) {
-                      if (didEmpresa == 97 && sellerid == "2436413856") {
-                        console.log("llegamosssssssssssssssssssss 3");
-                      }
+
 
                       const orderid = envioML.order_id;
-                      console.log("ENTROOO 1");
+
                       const orderData = await obtenerDatosOrderML(orderid, token);
                       //     console.log(orderData);
-                      console.log("ENTROOO 2");
+
                       const packid = orderData.pack_id ?? ""; //fijarse si es null poner en vacio
                       const claveusada = `${sellerid}-${packid}-${orderid}-${shipmentid}`;
 
@@ -824,7 +805,7 @@ async function consumirMensajes() {
                         let Aorders = [];
                         let AordersData = [];
                         if (packid != "") {
-                          console.log("ENTROOO 3");
+
                           const datapack = await getPackData(packid, token);
                           const Aorderspack = datapack.orders;
                           Aorders = Aorderspack.map((order) => order.id);
@@ -834,7 +815,7 @@ async function consumirMensajes() {
 
                         //recorro Aorders y me traigo los datos de la venta
                         for (const orderId of Aorders) {
-                          console.log("ENTROOO 4");
+
 
                           let orderPack = await obtenerDatosOrderML(
                             orderId,
