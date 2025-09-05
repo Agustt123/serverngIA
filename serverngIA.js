@@ -781,15 +781,16 @@ async function consumirMensajes() {
 
 
                 }
-                //     console.log("Datos del seller:PASOOO");
 
-                // data , resourse, didempresa, didcliente, didcuenta , ff, ia 
-                //le pegue a la cola logs_callback2
-                console.log("llegamosssssssssssssssssssss 1");
+                if (didEmpresa == 97 && sellerid == "2436413856") {
+                  console.log("llegamosssssssssssssssssssss 1");
+                }
 
                 const token = await getTokenForSeller(sellerid);
 
-                console.log("llegamosssssssssssssssssssss 2");
+                if (didEmpresa == 97 && sellerid == "2436413856") {
+                  console.log("llegamosssssssssssssssssssss 2");
+                }
 
 
 
@@ -800,7 +801,9 @@ async function consumirMensajes() {
 
                     const paso = await verificarSiPaso(envioML, didEmpresa);
                     if (paso) {
-                      console.log("pasooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo");
+                      if (didEmpresa == 97 && sellerid == "2436413856") {
+                        console.log("llegamosssssssssssssssssssss 3");
+                      }
 
                       const orderid = envioML.order_id;
                       console.log("ENTROOO 1");
