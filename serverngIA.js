@@ -653,21 +653,7 @@ async function getPackData(packId, token) {
   }
 }
 async function verificarSiPaso(envioML, didEmpresa, sellerid) {
-
-  const xd_drop_off = [
-    "1593590494",
-    "298477234",
-    "1433300659",
-    "51990749",
-    "746339074",
-    "23598767",
-    "135036152",
-    "209906959",
-    "2436413856",
-    "1076740090",
-    "452306476"
-  ];
-  const drop_off = [
+  const sellersValidos = [
     "1593590494",
     "298477234",
     "1433300659",
@@ -679,19 +665,15 @@ async function verificarSiPaso(envioML, didEmpresa, sellerid) {
     "2436413856",
     "1076740090",
     "452306476",
-    "440591558",
-
+    "440591558" // <- agregado en todos los casos
   ];
 
-
-
   if (!envioML) return false;
+
   if (didEmpresa == 170 || didEmpresa == undefined) {
     console.log("Empresa 170, no se procesa el mensaje");
     console.log(`Mensaje ignorado: ${JSON.stringify(envioML)}`);
-
-
-
+    return false;
   }
 
   const tipo = envioML.logistic_type;
@@ -700,28 +682,27 @@ async function verificarSiPaso(envioML, didEmpresa, sellerid) {
     return true;
   }
 
-
-
-  if (didEmpresa === 97 && tipo === "xd_drop_off" && xd_drop_off.includes(sellerid)) {
+  // Reglas específicas por empresa y tipo
+  if (didEmpresa === 97 && tipo === "xd_drop_off" && sellersValidos.includes(sellerid)) {
     return true;
   }
-  if ((didEmpresa === 97 || didEmpresa === 130) && tipo === "drop_off" && drop_off.includes(sellerid)) {
+  if ((didEmpresa === 97 || didEmpresa === 130) && tipo === "drop_off" && sellersValidos.includes(sellerid)) {
     return true;
   }
-  if (didEmpresa === 97 && tipo === "cross_docking" && drop_off.includes(sellerid)) {
+  if (didEmpresa === 97 && tipo === "cross_docking" && sellersValidos.includes(sellerid)) {
     return true;
   }
   if (didEmpresa === 97 && tipo === "fulfillment") {
     return false;
   }
-
-  if (didEmpresa === 274 && tipo === "cross_docking") {
+  if (didEmpresa === 274 && tipo === "cross_docking" && sellersValidos.includes(sellerid)) {
     return true;
   }
+  if (sellersValidos.includes(sellerid) || tipo === "cross_docking" || tipo === "drop_off" || tipo === "xd_drop_off") {
 
-  return false;
+    return true;
+  }
 }
-
 async function consumirMensajes() {
   let connection;
   let channel;
