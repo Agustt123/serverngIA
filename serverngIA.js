@@ -794,13 +794,14 @@ async function consumirMensajes() {
                   if (ff == 1) {
 
                     const paso = await verificarSiPaso(envioML, didEmpresa);
-                    console.log("pasooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo");
                     if (paso) {
+                      console.log("pasooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo");
 
                       const orderid = envioML.order_id;
+                      console.log("ENTROOO 1");
                       const orderData = await obtenerDatosOrderML(orderid, token);
                       //     console.log(orderData);
-
+                      console.log("ENTROOO 2");
                       const packid = orderData.pack_id ?? ""; //fijarse si es null poner en vacio
                       const claveusada = `${sellerid}-${packid}-${orderid}-${shipmentid}`;
 
@@ -808,6 +809,7 @@ async function consumirMensajes() {
                         let Aorders = [];
                         let AordersData = [];
                         if (packid != "") {
+                          console.log("ENTROOO 3");
                           const datapack = await getPackData(packid, token);
                           const Aorderspack = datapack.orders;
                           Aorders = Aorderspack.map((order) => order.id);
@@ -817,7 +819,7 @@ async function consumirMensajes() {
 
                         //recorro Aorders y me traigo los datos de la venta
                         for (const orderId of Aorders) {
-                          console.log("ENTROOO 1");
+                          console.log("ENTROOO 4");
 
                           let orderPack = await obtenerDatosOrderML(
                             orderId,
