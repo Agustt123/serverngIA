@@ -784,6 +784,8 @@ async function consumirMensajes() {
 
                 if (didEmpresa == 97 && sellerid == "2436413856") {
                   console.log("llegamosssssssssssssssssssss 1");
+                  console.log("MI FF ES:", ff);
+
                 }
 
                 const token = await getTokenForSeller(sellerid);
