@@ -137,6 +137,7 @@ async function getTokenRedis() {
 
 async function getTokenForSeller(seller_id) {
   try {
+    let token;
     token = Atokens[seller_id];
 
     if (token) {
