@@ -882,11 +882,25 @@ async function consumirMensajes() {
                     //const paso = await verificarSiPaso(envioML.logistic_type);
                     //if ( envioML && paso ){
                     //   console.log("hola");
+                    if (didEmpresa === 159) {
+                      console.log("LLEGUEEE 1");
 
+                    }
                     const paso = await verificarSiPaso(envioML, didEmpresa, sellerid);
                     //   console.log("paso", paso);
+                    //   console.log("hola");
+                    if (didEmpresa === 159) {
+                      console.log("LLEGUEEE 2");
+
+                    }
 
                     if (paso) {
+                      //   console.log("hola");
+                      if (didEmpresa === 159) {
+                        console.log("LLEGUEEE 3");
+
+                      }
+
 
                       const orderid = envioML.order_id;
                       const orderData = await obtenerDatosOrderML(
