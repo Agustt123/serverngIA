@@ -26,6 +26,12 @@ async function reiniciarScript() {
     });
   });
 }
+async function ensureRedis() {
+  if (!redisClient.isOpen) {
+    await redisClient.connect();
+  }
+}
+
 
 let Atokens = [];
 let AsellersData = [];
@@ -55,7 +61,7 @@ async function main() {
     await reiniciarScript();
     console.error("Error en la ejecución principal:", error);
   } finally {
-    await redisClient.disconnect();
+    //    await redisClient.disconnect();
   }
 }
 
@@ -119,37 +125,34 @@ async function obtenerDatosOrderML(shipmentid, token) {
   }
 }
 
+
+
 async function getTokenRedis() {
   try {
-    const type = await redisClient.type("token");
-    if (type !== "hash") {
-      //console.error(La clave 'token' no es un hash, es de tipo: ${type});
-      return; // O maneja el error según sea necesario
-    }
-
-    const data = await redisClient.hGetAll("token");
-    // console.log(data);
-    Atokens = data; // Asegúrate de que esto sea lo que necesitas
+    await ensureRedis();
+    const data = await redisClient.hGetAll("token"); // devuelve { "208137579": "tok...", ... }
+    Atokens = data || {};
   } catch (error) {
     console.error("Error al obtener tokens de Redis:", error);
+    Atokens = {};
   }
 }
 
 async function getTokenForSeller(seller_id) {
-  try {
-    let token
-    token = Atokens[seller_id];
+  const key = String(seller_id);
 
-    if (token) {
-      return token;
-    } else {
-      return -1;
-    }
-  } catch (error) {
-    console.error("Error al obtener el token de Redis:", error);
-    return -1;
+  // 1) intento en cache
+  if (Atokens[key]) {
+    return Atokens[key];
   }
+
+  // 2) refresco todo el hash
+  await getTokenRedis();
+
+  // 3) devuelvo el token o -1 si no existe
+  return Atokens[key] || -1;
 }
+
 
 function extractKey(resource) {
   const match = resource.match(/\/shipments\/(\d+)/);
