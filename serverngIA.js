@@ -897,10 +897,7 @@ async function consumirMensajes() {
                         token
                       );
 
-                      if (didEmpresa === 159) {
-                        console.log("LLEGUEEE 3");
 
-                      }
                       const claveusada = `${sellerid}-${orderid}-${shipmentid}`;
                       if (!Ausados.hasOwnProperty(claveusada)) {
                         const income = {
@@ -918,13 +915,10 @@ async function consumirMensajes() {
                           operador: "enviosmlia",
                           data: await armadojson(income),
                         };
-                        if (didEmpresa === 159) {
-                          console.log("LLEGUEEE 4");
 
-                        }
                         await enviarColaEnviosAlta(dataEnviar);
                         if (didEmpresa === 159) {
-                          console.log("LLEGUEEE 5");
+                          console.log(dataEnviar, "LLEGUEEE 5");
 
                         }
                         await enviarColaLogsInfo(data, dataEnviar.data, envioML.logistic_type);
