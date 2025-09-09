@@ -882,24 +882,13 @@ async function consumirMensajes() {
                     //const paso = await verificarSiPaso(envioML.logistic_type);
                     //if ( envioML && paso ){
                     //   console.log("hola");
-                    if (didEmpresa === 159) {
-                      console.log("LLEGUEEE 1");
 
-                    }
                     const paso = await verificarSiPaso(envioML, didEmpresa, sellerid);
                     //   console.log("paso", paso);
                     //   console.log("hola");
-                    if (didEmpresa === 159) {
-                      console.log("LLEGUEEE 2");
-
-                    }
 
                     if (paso) {
                       //   console.log("hola");
-                      if (didEmpresa === 159) {
-                        console.log("LLEGUEEE 3");
-
-                      }
 
 
                       const orderid = envioML.order_id;
@@ -908,6 +897,10 @@ async function consumirMensajes() {
                         token
                       );
 
+                      if (didEmpresa === 159) {
+                        console.log("LLEGUEEE 3");
+
+                      }
                       const claveusada = `${sellerid}-${orderid}-${shipmentid}`;
                       if (!Ausados.hasOwnProperty(claveusada)) {
                         const income = {
@@ -925,8 +918,15 @@ async function consumirMensajes() {
                           operador: "enviosmlia",
                           data: await armadojson(income),
                         };
+                        if (didEmpresa === 159) {
+                          console.log("LLEGUEEE 4");
 
+                        }
                         await enviarColaEnviosAlta(dataEnviar);
+                        if (didEmpresa === 159) {
+                          console.log("LLEGUEEE 5");
+
+                        }
                         await enviarColaLogsInfo(data, dataEnviar.data, envioML.logistic_type);
                         Ausados[claveusada] = 1;
                       }
