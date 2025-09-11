@@ -776,11 +776,11 @@ async function consumirMensajes() {
               /*   
                                 console.log("Evaluando sellerid:", sellerid);
                                 console.log(JSON.stringify(AsellersData[sellerid], null, 2));*/
-
-
               if (!AsellersData || !AsellersData[sellerid]) {
-                await obtenerSellersActivos();
+                "Entramos al 1"
+                await obtenerSellersActivos2();
               }
+
 
 
               const sellerdata = AsellersData?.[sellerid];
