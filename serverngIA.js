@@ -770,7 +770,11 @@ async function consumirMensajes() {
 
 
               await enviarColaLogs(data);
+              if (sellerid == 2383221452) {
 
+                console.log("dadsadadsa", data);
+
+              }
 
 
               //   console.log(data);
