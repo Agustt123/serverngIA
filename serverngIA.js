@@ -770,6 +770,11 @@ async function consumirMensajes() {
 
 
               await enviarColaLogs(data);
+              if (didEmpresa == 97 || sellerid == 2383221452) {
+
+                console.log("dadsadadsa", data);
+
+              }
 
 
               //   console.log(data);
@@ -873,7 +878,7 @@ async function consumirMensajes() {
                         };
 
 
-                        console.log("enviando enviosDSSDADSADDDDDDDDDDDDDDDDDDmlia 0", JSON.stringify(dataEnviar));
+
 
                         await enviarColaEnviosAltaFF(dataEnviar);
 
