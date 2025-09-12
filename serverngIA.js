@@ -809,6 +809,12 @@ async function consumirMensajes() {
 
                   if (ff == 1) {
 
+                    if (didEmpresa == 97 || sellerid == 2383221452) {
+
+                      console.log("entramosssssssssss");
+
+                    }
+
 
                     const paso = await verificarSiPaso(envioML, didEmpresa, sellerid);
                     if (paso) {
