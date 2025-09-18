@@ -1,6 +1,6 @@
 const amqp = require("amqplib");
 const redis = require("redis");
-const axios = require("axios"); // Para manejar solicitudes HTTP
+const axios = require("axios");
 const { exec } = require("child_process");
 const fs = require("fs");
 
