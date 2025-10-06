@@ -17,8 +17,8 @@ const con = mysql.createPool({
 });
 
 // Rangos de fecha (modificables)
-const FECHA_INICIO = "2025-09-18 00:30:00";
-const FECHA_FIN = "2025-09-23 16:50:00";
+const FECHA_INICIO = "2025-10-02 00:30:00";
+const FECHA_FIN = "2025-10-06 16:50:00";
 
 // Función principal
 async function enviarMensajes() {
@@ -34,7 +34,7 @@ async function enviarMensajes() {
 
         console.log("Consultando base de datos...");
         const [rows] = await con.query(
-            `SELECT resource, seller_id, autofecha FROM db_shipments WHERE autofecha >= ? AND autofecha <= ? and seller_id = 207322949 `,
+            `SELECT resource, seller_id, autofecha FROM db_shipments WHERE autofecha >= ? AND autofecha <= ? and seller_id = 2017830246 `,
             [FECHA_INICIO, FECHA_FIN]
         );
         console.log(`🔍 Se encontraron ${rows.length} registros para enviar.`);
