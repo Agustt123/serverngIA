@@ -18,7 +18,7 @@ const con = mysql.createPool({
 
 // Rangos de fecha (modificables)
 const FECHA_INICIO = "2025-10-02 00:30:00";
-const FECHA_FIN = "2025-10-06 16:50:00";
+const FECHA_FIN = "2025-10-07 16:50:00";
 
 // Función principal
 async function enviarMensajes() {
