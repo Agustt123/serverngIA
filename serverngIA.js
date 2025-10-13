@@ -687,7 +687,11 @@ async function verificarSiPaso(envioML, didEmpresa, sellerid) {
     "190172442",
     "452306476",
     "440591558",
-    "2617161769"
+    "2617161769",
+    "700634176",
+    "1434981515",
+    "161284628"
+
   ];
 
   if (!envioML) return false;
@@ -711,7 +715,7 @@ async function verificarSiPaso(envioML, didEmpresa, sellerid) {
 
     return true;
   }
-  if (didEmpresa === 97 && tipo === "xd_drop_off" && sellersValidos.includes(sellerid)) {
+  if (tipo === "xd_drop_off" && sellersValidos.includes(sellerid)) {
     return true;
   }
   if ((didEmpresa === 97 || didEmpresa === 130) && tipo === "drop_off" && sellersValidos.includes(sellerid)) {
