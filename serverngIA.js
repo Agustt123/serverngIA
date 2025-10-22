@@ -699,7 +699,7 @@ async function verificarSiPaso(envioML, didEmpresa, sellerid) {
 
   if (didEmpresa == 170 || didEmpresa == undefined) {
     console.log("Empresa 170, no se procesa el mensaje");
-    console.log(`Mensaje ignorado: ${JSON.stringify(envioML)}`);
+    // console.log(`Mensaje ignorado: ${JSON.stringify(envioML)}`);
     return false;
   }
 
