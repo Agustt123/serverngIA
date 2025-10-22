@@ -690,7 +690,8 @@ async function verificarSiPaso(envioML, didEmpresa, sellerid) {
     "2617161769",
     "700634176",
     "1434981515",
-    "161284628"
+    "161284628",
+    "199919849"
 
   ];
 
@@ -773,20 +774,7 @@ async function consumirMensajes() {
               const shipmentid = extractKey(data["resource"]);
               const sellerid = String(data["sellerid"]);
 
-
               await enviarColaLogs(data);
-              if (sellerid == 2383221452) {
-
-                console.log("dadsadadsa", data);
-
-              }
-
-
-              //   console.log(data);
-              /*   
-                                console.log("Evaluando sellerid:", sellerid);
-                                console.log(JSON.stringify(AsellersData[sellerid], null, 2));*/
-
 
               if (!AsellersData || !AsellersData[sellerid]) {
                 await obtenerSellersActivos();
@@ -871,7 +859,7 @@ async function consumirMensajes() {
                           envioML,
                           ff,
                           ia,
-                          AordersData, // Ahora contiene todas las órdenes
+                          AordersData,
                         };
 
 
@@ -937,11 +925,8 @@ async function consumirMensajes() {
                           data: await armadojson(income),
                         };
 
-                        await enviarColaEnviosAlta(dataEnviar);
-                        if (didEmpresa === 159) {
-                          console.log(dataEnviar, "LLEGUEEE 5");
 
-                        }
+                        await enviarColaEnviosAlta(dataEnviar);
                         await enviarColaLogsInfo(data, dataEnviar.data, envioML.logistic_type);
                         Ausados[claveusada] = 1;
                       }
