@@ -34,7 +34,7 @@ async function enviarMensajes() {
 
         console.log("Consultando base de datos...");
         const [rows] = await con.query(
-            `SELECT resource, seller_id, autofecha FROM db_shipments WHERE autofecha >= ? AND autofecha <= ? and seller_id in (277110616,352165484,220245377) `,
+            `SELECT resource, seller_id, autofecha FROM db_shipments WHERE autofecha >= ? AND autofecha <= ? and seller_id in (277110616,352165484,220245377,352174293,164123614) `,
             [FECHA_INICIO, FECHA_FIN]
         );
         console.log(`🔍 Se encontraron ${rows.length} registros para enviar.`);
