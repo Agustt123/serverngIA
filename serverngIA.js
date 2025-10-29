@@ -730,7 +730,7 @@ async function verificarSiPaso(envioML, didEmpresa, sellerid) {
   if (didEmpresa === 97 && tipo === "cross_docking" && sellersValidos.includes(sellerid)) {
     return true;
   }
-  if (didEmpresa === 97 && tipo === "fulfillment") {
+  if (tipo === "fulfillment") {
     return false;
   }
   if (didEmpresa === 274 && tipo === "cross_docking" && sellersValidos.includes(sellerid)) {
