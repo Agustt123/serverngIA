@@ -698,7 +698,8 @@ async function verificarSiPaso(envioML, didEmpresa, sellerid) {
     "1104855194",
     "2352102716",
     "2244145",
-    "113436700"
+    "113436700",
+    "92182809"
 
 
 
