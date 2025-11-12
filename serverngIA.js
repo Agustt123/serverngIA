@@ -770,7 +770,7 @@ async function consumirMensajes() {
       // Crear un nuevo canal
       channel = await connection.createChannel();
       await channel.assertQueue("enviosml_ia", { durable: true });
-      await channel.prefetch(20);
+      await channel.prefetch(1000);
 
       //540009458 => [{"didEmpresa":"105","didCliente":"22","didCuenta":"131","clave":"105-22-131"}]
 
