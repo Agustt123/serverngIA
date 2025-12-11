@@ -17,7 +17,7 @@ const con = mysql.createPool({
 });
 
 // Rangos de fecha (modificables)
-const FECHA_INICIO = "2025-12-10 00:30:00";
+const FECHA_INICIO = "2025-12-11 00:30:00";
 const FECHA_FIN = "2025-12-13 23:50:00";
 
 // Función principal
