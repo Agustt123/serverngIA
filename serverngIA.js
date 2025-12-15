@@ -952,6 +952,9 @@ async function consumirMensajes() {
             } catch (err) {
               console.error("Error procesando mensaje:", err);
             } finally {
+
+              console.log("llegamosssw alk ack ");
+
               channel.ack(mensaje); // ✅ SIEMPRE hacemos ACK
             }
           }
