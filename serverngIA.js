@@ -784,7 +784,7 @@ async function consumirMensajes() {
         async (mensaje) => {
           if (mensaje) {
             try {
-
+              console.log("1");
               const data = JSON.parse(mensaje.content.toString());
               const shipmentid = extractKey(data["resource"]);
               const sellerid = String(data["sellerid"]);
@@ -827,11 +827,11 @@ async function consumirMensajes() {
                       console.log("entramosssssssssss");
 
                     }
-
+                    console.log("2");
 
                     const paso = await verificarSiPaso(envioML, didEmpresa, sellerid);
                     if (paso) {
-
+                      console.log("3");
 
                       const orderid = envioML.order_id;
 
@@ -879,21 +879,21 @@ async function consumirMensajes() {
 
 
 
-
+                        console.log("4");
                         const dataEnviar = {
                           operador: "enviosmlia",
                           data: await armadojsonff(income),
                         };
 
 
-
+                        console.log("entramosssssssssss"); 5
 
                         await enviarColaEnviosAltaFF(dataEnviar);
 
 
+                        console.log("6");
                         //  AusadosFF[claveusada] = 1;
                         return true;
-
                       }
                     }
 
@@ -944,6 +944,7 @@ async function consumirMensajes() {
                         enviarColaEnviosAlta(dataEnviar);
                         enviarColaLogsInfo(data, dataEnviar.data, envioML.logistic_type);
                         Ausados[claveusada] = 1;
+                        console.log("7");
                       }
                     }
                   }
