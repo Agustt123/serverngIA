@@ -5,6 +5,89 @@ const { exec } = require("child_process");
 const fs = require("fs");
 
 const pm2 = require("pm2"); // Importar PM2
+const RABBIT_CONFIG = {
+  protocol: "amqp",
+  hostname: "158.69.131.226",
+  port: 5672,
+  username: "lightdata",
+  password: "QQyfVBKRbw6fBb",
+  heartbeat: 30,
+};
+
+let connection = null;
+let channels = {};
+let connecting = false;
+
+/**
+ * Conecta una sola vez a RabbitMQ
+ */
+async function connect() {
+  if (connection) return connection;
+
+  if (connecting) {
+    // espera a que termine una conexión en curso
+    await new Promise((r) => setTimeout(r, 300));
+    return connect();
+  }
+
+  connecting = true;
+
+  connection = await amqp.connect(RABBIT_CONFIG);
+
+  connection.on("close", () => {
+    console.error("❌ RabbitMQ conexión cerrada");
+    connection = null;
+    channels = {};
+  });
+
+  connection.on("error", (err) => {
+    console.error("❌ RabbitMQ error:", err.message);
+  });
+
+  connecting = false;
+  console.log("✅ RabbitMQ conectado");
+
+  return connection;
+}
+
+/**
+ * Devuelve un canal reutilizable por cola
+ */
+async function getChannel(queue, prefetch = null) {
+  if (channels[queue]) return channels[queue];
+
+  const conn = await connect();
+  const channel = await conn.createChannel();
+
+  await channel.assertQueue(queue, { durable: true });
+
+  // prefetch SOLO para consumers
+  if (prefetch) {
+    channel.prefetch(prefetch);
+  }
+
+  channel.on("close", () => {
+    delete channels[queue];
+  });
+
+  channel.on("error", (err) => {
+    console.error(`❌ Canal Rabbit error [${queue}]:`, err.message);
+  });
+
+  channels[queue] = channel;
+  return channel;
+}
+
+/**
+ * Enviar mensaje a una cola (producer)
+ */
+async function sendToQueue(queue, message) {
+  const channel = await getChannel(queue);
+  channel.sendToQueue(queue, Buffer.from(JSON.stringify(message)), {
+    persistent: true,
+  });
+}
+
 
 async function reiniciarScript() {
   return new Promise((resolve, reject) => {
@@ -508,143 +591,23 @@ async function obtenerSellersActivosV2() {
   }
 }
 async function enviarColaEnviosAlta(datajson) {
-  const queue = "insertMLIA";
-  const message = datajson;
+  await sendToQueue("insertMLIA", datajson);
 
-  //console.log("mensaje a enviar:");
-
-  //console.log(message);
-
-  try {
-    const connection = await amqp.connect({
-      protocol: "amqp",
-      hostname: "158.69.131.226",
-      port: 5672,
-      username: "lightdata",
-      password: "QQyfVBKRbw6fBb",
-      heartbeat: 30,
-    });
-
-    const channel = await connection.createChannel();
-    await channel.assertQueue(queue, { durable: true });
-    await channel.prefetch(20);
-
-    channel.sendToQueue(queue, Buffer.from(JSON.stringify(message)), {
-      persistent: true,
-    });
-
-    console.log("Mensaje enviado a la cola insertMLIA:");
-
-    await channel.close();
-    await connection.close();
-  } catch (error) {
-    console.error("Error al enviar el mensaje a la cola:", error);
-  }
 }
 async function enviarColaEnviosAltaFF(datajson) {
-  const queue = "insertFF";
-  const message = datajson;
-
-  //console.log("mensaje a enviar:");
-  //console.log(message);
-
-  try {
-    const connection = await amqp.connect({
-      protocol: "amqp",
-      hostname: "158.69.131.226",
-      port: 5672,
-      username: "lightdata",
-      password: "QQyfVBKRbw6fBb",
-      heartbeat: 30,
-    });
-
-    const channel = await connection.createChannel();
-    await channel.assertQueue(queue, { durable: true });
-    await channel.prefetch(10000);
-
-    channel.sendToQueue(queue, Buffer.from(JSON.stringify(message)), {
-      persistent: true,
-    });
-    d
-    console.log("Mensaje enviado a la cola insertFF:");
-
-    await channel.close();
-    await connection.close();
-  } catch (error) {
-    console.error("Error al enviar el mensaje a la cola:", error);
-  }
+  await sendToQueue("insertFF", datajson);
 }
 async function enviarColaLogs(datajson) {
-  const queue = "callback_logs";
-  const message = datajson;
-
-  console.log("mensaje a enviar:");
-  //console.log(message);
-
-  try {
-    const connection = await amqp.connect({
-      protocol: "amqp",
-      hostname: "158.69.131.226",
-      port: 5672,
-      username: "lightdata",
-      password: "QQyfVBKRbw6fBb",
-      heartbeat: 30,
-    });
-
-    const channel = await connection.createChannel();
-    await channel.assertQueue(queue, { durable: true });
-    await channel.prefetch(20);
-
-    channel.sendToQueue(queue, Buffer.from(JSON.stringify(message)), {
-      persistent: true,
-    });
-
-    console.log("Mensaje enviado a la cola de logs:");
-
-    await channel.close();
-    await connection.close();
-  } catch (error) {
-    console.error("Error al enviar el mensaje a la cola:", error);
-  }
+  await sendToQueue("callback_logs", datajson);
 }
 
 async function enviarColaLogsInfo(datajson, data, type) {
-  const queue = "callback_logsInfo";
-  const message = {
+  await sendToQueue("callback_logsInfo", {
     datajson,
     data,
     type
-  };
-
-  //console.log("mensaje a enviar:", message);
-
-  try {
-    const connection = await amqp.connect({
-      protocol: "amqp",
-      hostname: "158.69.131.226",
-      port: 5672,
-      username: "lightdata",
-      password: "QQyfVBKRbw6fBb",
-      heartbeat: 30,
-    });
-
-    const channel = await connection.createChannel();
-    await channel.assertQueue(queue, { durable: true });
-    await channel.prefetch(20);
-
-    channel.sendToQueue(queue, Buffer.from(JSON.stringify(message)), {
-      persistent: true,
-    });
-
-    console.log("Mensaje enviado a la cola de logs.");
-
-    await channel.close();
-    await connection.close();
-  } catch (error) {
-    console.error("Error al enviar el mensaje a la cola:", error);
-  }
+  });
 }
-
 async function getPackData(packId, token) {
   try {
     const url = `https://api.mercadolibre.com/packs//${packId}`;
