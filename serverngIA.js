@@ -565,7 +565,7 @@ async function enviarColaEnviosAltaFF(datajson) {
     channel.sendToQueue(queue, Buffer.from(JSON.stringify(message)), {
       persistent: true,
     });
-    d
+
     console.log("Mensaje enviado a la cola insertFF:");
 
     await channel.close();
