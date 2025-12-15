@@ -560,12 +560,12 @@ async function enviarColaEnviosAltaFF(datajson) {
 
     const channel = await connection.createChannel();
     await channel.assertQueue(queue, { durable: true });
-    await channel.prefetch(20);
+    await channel.prefetch(5);
 
     channel.sendToQueue(queue, Buffer.from(JSON.stringify(message)), {
       persistent: true,
     });
-
+    d
     console.log("Mensaje enviado a la cola insertFF:");
 
     await channel.close();
