@@ -560,7 +560,7 @@ async function enviarColaEnviosAltaFF(datajson) {
 
     const channel = await connection.createChannel();
     await channel.assertQueue(queue, { durable: true });
-    await channel.prefetch(5);
+    await channel.prefetch(10000);
 
     channel.sendToQueue(queue, Buffer.from(JSON.stringify(message)), {
       persistent: true,
