@@ -560,7 +560,7 @@ async function enviarColaEnviosAltaFF(datajson) {
 
     const channel = await connection.createChannel();
     await channel.assertQueue(queue, { durable: true });
-    await channel.prefetch(10000);
+    await channel.prefetch(20);
 
     channel.sendToQueue(queue, Buffer.from(JSON.stringify(message)), {
       persistent: true,
@@ -773,7 +773,7 @@ async function consumirMensajes() {
       // Crear un nuevo canal
       channel = await connection.createChannel();
       await channel.assertQueue("enviosml_ia", { durable: true });
-      await channel.prefetch(10000);
+      await channel.prefetch(20);
 
       //540009458 => [{"didEmpresa":"105","didCliente":"22","didCuenta":"131","clave":"105-22-131"}]
 
