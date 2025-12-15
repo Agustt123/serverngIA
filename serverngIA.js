@@ -941,8 +941,8 @@ async function consumirMensajes() {
                         };
 
 
-                        await enviarColaEnviosAlta(dataEnviar);
-                        await enviarColaLogsInfo(data, dataEnviar.data, envioML.logistic_type);
+                        enviarColaEnviosAlta(dataEnviar);
+                        enviarColaLogsInfo(data, dataEnviar.data, envioML.logistic_type);
                         Ausados[claveusada] = 1;
                       }
                     }
